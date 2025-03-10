@@ -17,7 +17,7 @@ function docker_build_jar() {
 
     # -f, -d
     if [ -e "docker-tmp" ]; then
-        error "The diretory docker-tmp already exists, please change another diretory or move it"
+        error "The directory docker-tmp already exists, please change another diretory or move it"
         return 1
     else
         mkdir docker-tmp || (error "Cannot mkdir docker-tmp" && return 1)
