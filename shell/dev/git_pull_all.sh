@@ -23,4 +23,31 @@ function git_pull_all() {
     done
 }
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# 查找所有的git仓库，并拉取最新代码(如果有未提交的变更则跳过)
+function git_pull_all() {
+    # -mindepth 1 -maxdepth 3
+    find . -type d -name .git -maxdepth 3 | while read -r gitdir; do
+        repo_dir=$(dirname "$gitdir")
+
+        # 使用子shell处理每个仓库，避免影响主脚本的工作目录
+        (
+            cd "$repo_dir" || exit 1  # 进入仓库目录
+            echo "Updating repository in $repo_dir"
+            git pull --all
+            # 检查是否有未提交的变更
+            if [[ -n $(git status --porcelain) ]]; then
+                echo -e "${RED}$repo_dir has uncommitted changes${NC}"
+            fi
+
+            ## 删除除 README.md 之外的所有文件和文件夹
+            #find . -mindepth 1 -maxdepth 1 ! -name "README.md" -exec rm -rf {} \;
+        )
+    done
+}
+
 if [ $# != 0 ]; then git_pull_all $@; fi
+
+}
