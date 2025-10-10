@@ -45,7 +45,7 @@ public class OutputModule {
         while (expect < size) {
             List<String> subSqlList = sqlList.subList(offset, expect);
             String blockFile = InterpolationUtil.formatEl(rollingFile, "i", rollingFileIndex);
-            FileUtil.writeFrom(blockFile, String.join("\n", subSqlList) + "\n", true);
+            FileUtil.write(blockFile, String.join("\n", subSqlList) + "\n", true);
             offset += expect;
             size -= expect;
             expect = rollingFileMaxSqlCount;
@@ -56,7 +56,7 @@ public class OutputModule {
             sqlCountCounter += size;
             List<String> subSqlList = sqlList.subList(offset, sqlList.size());
             String blockFile = InterpolationUtil.formatEl(rollingFile, "i", rollingFileIndex);
-            FileUtil.writeFrom(blockFile, String.join("\n", subSqlList) + "\n", true);
+            FileUtil.write(blockFile, String.join("\n", subSqlList) + "\n", true);
         }
     }
 }

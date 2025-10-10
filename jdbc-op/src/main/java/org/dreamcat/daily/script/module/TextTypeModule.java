@@ -71,7 +71,7 @@ public class TextTypeModule {
     private EnumMap<TextValueType, List<String>> getTextTypeMap() throws IOException {
         List<String> lines;
         if (ObjectUtil.isNotEmpty(textTypeFile)) {
-            lines = FileUtil.readAsList(textTypeFile);
+            lines = FileUtil.readLines(textTypeFile);
         } else {
             lines = Arrays.asList(textTypeFileContent.split("\n"));
         }

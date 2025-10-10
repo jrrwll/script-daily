@@ -13,7 +13,7 @@ import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.common.json.YamlUtil;
 import org.dreamcat.common.sql.SqlValueLiterallyGenerator;
 import org.dreamcat.common.text.InterpolationUtil;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 import org.dreamcat.common.util.MapUtil;
 import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.common.util.StringUtil;
@@ -56,7 +56,7 @@ public class RandomGenModule {
 
         // builtin converters
         Map<String, List<ConverterItem>> converterInfos = YamlUtil.fromJson(
-                ClassPathUtil.getResourceAsString("converters.yaml"),
+                ClassLoaderUtil.getResourceAsString("converters.yaml"),
                 new TypeReference<Map<String, List<ConverterItem>>>() {
                 });
         registerConvertors(converterInfos);

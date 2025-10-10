@@ -35,7 +35,7 @@ public class ExportCsvHandler extends BaseExportHandler {
     RandomGenModule randomGen;
 
     @Override
-    protected void readSource(IConsumer<Connection, ?> f) throws Exception {
+    protected void readSource(IConsumer<Connection> f) throws Exception {
         jdbc.run(f);
     }
 

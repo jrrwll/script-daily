@@ -59,7 +59,7 @@ public class TypeTableHandler extends BaseDdlHandler {
         if (ObjectUtil.isNotBlank(file) || ObjectUtil.isNotBlank(fileContent)) {
             List<String> lines;
             if (ObjectUtil.isNotBlank(file)) {
-                lines = FileUtil.readAsList(file);
+                lines = FileUtil.readLines(file);
             } else {
                 lines = Arrays.asList(fileContent.split("\n"));
             }

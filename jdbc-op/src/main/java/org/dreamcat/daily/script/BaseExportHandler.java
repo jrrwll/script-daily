@@ -47,9 +47,9 @@ public abstract class BaseExportHandler extends BaseHandler {
     boolean verbose;
     private boolean abort;
 
-    protected abstract void readSource(IConsumer<Connection, ?> f) throws Exception;
+    protected abstract void readSource(IConsumer<Connection> f) throws Exception;
 
-    protected void writeTarget(IConsumer<Connection, ?> f) throws Exception {
+    protected void writeTarget(IConsumer<Connection> f) throws Exception {
         f.accept(null);
     }
 

@@ -57,12 +57,12 @@ public class ExportJdbcHandler extends BaseExportHandler {
     }
 
     @Override
-    protected void readSource(IConsumer<Connection, ?> f) throws Exception {
+    protected void readSource(IConsumer<Connection> f) throws Exception {
         jdbc1.run(f);
     }
 
     @Override
-    protected void writeTarget(IConsumer<Connection, ?> f) throws Exception {
+    protected void writeTarget(IConsumer<Connection> f) throws Exception {
         if (!yes) {
             super.writeTarget(f);
             return;

@@ -2,7 +2,7 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
     }
 
     apply plugin: 'java-library'
@@ -10,30 +10,19 @@ subprojects {
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.options.encoding = 'UTF-8'
     sourceCompatibility = JavaVersion.VERSION_1_8
+
     version = '0.1'
     group = 'org.dreamcat.daily.script'
 
-    ext {
-        // https://mvnrepository.com/artifact/org.projectlombok/lombok
-        lombokVersion = '1.18.34'
-        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-        slf4jVersion = '1.7.36'
-        // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-        jupiterVersion = '5.9.2'
-        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-        jacksonVersion = '2.14.2'
-    }
-
     dependencies {
-        compileOnly "org.projectlombok:lombok:$lombokVersion"
-        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        testCompileOnly "org.projectlombok:lombok:$lombokVersion"
-        testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-        implementation "org.slf4j:slf4j-api:$slf4jVersion"
-        testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
-
-        implementation "org.dreamcat:common:0.5-SNAPSHOT"
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        testCompileOnly libs.lombok
+        testAnnotationProcessor libs.lombok
+        testImplementation libs.jupiter.api
+        testRuntimeOnly libs.jupiter.engine
+        implementation libs.slf4j.api
+        implementation libs.common
     }
 
     tasks.register('printVersion') {
@@ -46,6 +35,6 @@ subprojects {
         useJUnitPlatform()
     }
 
-    apply from: new File(rootDir, 'tasks.gradle')
+    apply from: new File(rootDir, 'gradle/tasks-jar.gradle')
 }
 

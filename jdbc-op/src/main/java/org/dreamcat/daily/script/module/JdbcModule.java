@@ -37,7 +37,7 @@ public class JdbcModule {
 
     }
 
-    public void run(IConsumer<Connection, ?> f) throws Exception {
+    public void run(IConsumer<Connection> f) throws Exception {
         if (jdbcUrl != null) {
             validateJdbc();
         }
@@ -55,7 +55,10 @@ public class JdbcModule {
         }
         System.out.println("jdbcUrl=" + jdbcUrl);
         System.out.println("props=" + props);
-        DriverUtil.runIsolated(jdbcUrl, props, urls, driverClass, f);
+        DriverUtil.runIsolated(jdbcUrl, props, urls, driverClass, c -> {
+            f.accept(c);
+            return null;
+        });
     }
 
     public void validateJdbc() {

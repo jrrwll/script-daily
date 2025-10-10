@@ -93,7 +93,7 @@ public class BatchTypeTableHandler extends BaseDdlHandler {
         if (ObjectUtil.isNotEmpty(file) || ObjectUtil.isNotBlank(fileContent)) {
             List<String> lines;
             if (ObjectUtil.isNotEmpty(file)) {
-                lines = FileUtil.readAsList(file);
+                lines = FileUtil.readLines(file);
             } else {
                 lines = Arrays.asList(fileContent.split("\n"));
             }
