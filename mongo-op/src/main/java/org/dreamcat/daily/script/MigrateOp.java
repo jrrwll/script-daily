@@ -2,21 +2,19 @@ package org.dreamcat.daily.script;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import javax.print.Doc;
-import javax.script.ScriptException;
 import org.bson.Document;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
-import org.dreamcat.common.json.JsonUtil;
 import org.dreamcat.common.script.DelegateScriptEngine;
 import org.dreamcat.common.text.PatternUtil;
 import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.daily.script.common.BaseHandler;
 import org.dreamcat.daily.script.common.CliUtil;
+
+import javax.script.ScriptException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Create by tuke on 2021/3/22

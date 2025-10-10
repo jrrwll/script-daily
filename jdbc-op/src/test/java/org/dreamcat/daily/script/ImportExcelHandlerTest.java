@@ -24,7 +24,7 @@ import org.dreamcat.common.excel.annotation.XlsStyle;
 import org.dreamcat.common.excel.callback.FitWidthWriteCallback;
 import org.dreamcat.common.excel.callback.HeaderCellStyleWriteCallback;
 import org.dreamcat.common.excel.map.SimpleSheet;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 import org.dreamcat.common.util.SystemUtil;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  */
 class ImportExcelHandlerTest {
 
-    static String homeDir = SystemUtil.getEnvOrProperty("HOME", "user.dir", ".");
+    static String homeDir = SystemUtil.getPropertyOrEnv("user.dir", "HOME", ".");
     static File filename = new File(homeDir, "Downloads/all_type.xlsx");
 
     @SneakyThrows
@@ -48,7 +48,7 @@ class ImportExcelHandlerTest {
                 "import-excel",
                 "-b", "3", "--cast-as",
                 "-f", filename.getAbsolutePath(),
-                "-T", ClassPathUtil.getResourceAsString("mysql-text-types.txt"),
+                "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"),
                 "--sn", "t_table_1,t_table_2",
                 "--cn", "c_int,c_double,c_string,c_bool,c_date,c_local_date,c_local_date_time,c_null", "*");
     }

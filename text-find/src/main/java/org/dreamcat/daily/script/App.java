@@ -3,7 +3,7 @@ package org.dreamcat.daily.script;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.Predicate;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 import org.dreamcat.daily.script.poetry.ChinesePoetryFinder;
 
 /**
@@ -46,7 +46,7 @@ public class App {
 
     static {
         try {
-            USAGE = ClassPathUtil.getResourceAsString("usage.txt");
+            USAGE = ClassLoaderUtil.getResourceAsString("usage.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

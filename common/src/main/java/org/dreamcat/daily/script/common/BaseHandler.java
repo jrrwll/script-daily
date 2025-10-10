@@ -1,8 +1,5 @@
 package org.dreamcat.daily.script.common;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 import lombok.SneakyThrows;
 import org.dreamcat.common.argparse.ArgParserContext;
 import org.dreamcat.common.argparse.ArgParserEntrypoint;
@@ -11,6 +8,10 @@ import org.dreamcat.common.argparse.SubcommandArgParser;
 import org.dreamcat.common.argparse.SubcommandHelpInfo;
 import org.dreamcat.common.json.YamlUtil;
 import org.dreamcat.common.util.ObjectUtil;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * @author Jerry Will

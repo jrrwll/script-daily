@@ -36,7 +36,7 @@ public class CompareLinesOp extends BaseHandler {
 
     @Override
     public void run() throws Exception {
-        List<String> jsons = FileUtil.readAsList(inputFile);
+        List<String> jsons = FileUtil.readLines(inputFile);
         int size = jsons.size();
         if (size < 1) return;
 
@@ -46,8 +46,8 @@ public class CompareLinesOp extends BaseHandler {
             Map<String, Object> leftDiff = new LinkedHashMap<>();
             Map<String, Object> rightDiff = new LinkedHashMap<>();
             MapUtil.compare(prev, next, leftDiff, rightDiff);
-            FileUtil.writeFrom(outputLeftFile, JsonUtil.toJson(leftDiff) + '\n', true);
-            FileUtil.writeFrom(outputRightFile, JsonUtil.toJson(rightDiff) + '\n', true);
+            FileUtil.write(outputLeftFile, JsonUtil.toJson(leftDiff) + '\n', true);
+            FileUtil.write(outputRightFile, JsonUtil.toJson(rightDiff) + '\n', true);
             prev = next;
         }
     }

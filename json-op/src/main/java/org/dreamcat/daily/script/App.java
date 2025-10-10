@@ -1,7 +1,7 @@
 package org.dreamcat.daily.script;
 
 import java.io.IOException;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 
 /**
  * @author Jerry Will
@@ -49,7 +49,7 @@ public class App {
 
     static {
         try {
-            USAGE = ClassPathUtil.getResourceAsString("usage.txt");
+            USAGE = ClassLoaderUtil.getResourceAsString("usage.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

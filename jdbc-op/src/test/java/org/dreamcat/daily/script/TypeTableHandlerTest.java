@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.dreamcat.common.argparse.SubcommandArgParser;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,7 +22,7 @@ class TypeTableHandlerTest {
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList("type-table", "my_table", "-S", "postgres",
                 "-c", "Column Type: $type", "-t"));
-        args.addAll(Arrays.asList(ClassPathUtil.getResourceAsString(
+        args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "postgresql-types.txt").split("\n")));
         SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
         argParser.run(args);
@@ -34,7 +34,7 @@ class TypeTableHandlerTest {
         args.addAll(Arrays.asList("type-table", "my_table", "--column-quota", "--debug",
                 "--extra-column-sql", "id bigint(20) not null auto_increment primary key",
                 "-c", "Column Type: $type", "-t"));
-        args.addAll(Arrays.asList(ClassPathUtil.getResourceAsString(
+        args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "mysql-types.txt").split("\n")));
         SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
         argParser.run(args);
@@ -45,7 +45,7 @@ class TypeTableHandlerTest {
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList("type-table", "my_table", "--column-quota",
                 "-t"));
-        args.addAll(Arrays.asList(ClassPathUtil.getResourceAsString(
+        args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "hive-types.txt").split("\n")));
         args.addAll(Arrays.asList("-p", "date", "string"));
 
@@ -59,7 +59,7 @@ class TypeTableHandlerTest {
         args.addAll(Arrays.asList("type-table", "my_table",
                 "--table-suffix-sql", "engine = MergeTree order by c_uuid",
                 "--column-quota", "-t"));
-        args.addAll(Arrays.asList(ClassPathUtil.getResourceAsString(
+        args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "clickhouse-types.txt").split("\n")));
 
         SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
@@ -72,7 +72,7 @@ class TypeTableHandlerTest {
                 "--extra-column-sql", "id bigint(20) not null auto_increment primary key",
                 "-c", "Column Type: $type",
                 "--cnt", "${name}_col_$index", "--pcnt", "p_${name}_col_$index",
-                "-F", ClassPathUtil.getResourceAsString("presto-mapping-types.txt"));
+                "-F", ClassLoaderUtil.getResourceAsString("presto-mapping-types.txt"));
         SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
         argParser.run(args);
     }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.dreamcat.common.argparse.ArgParseException;
 import org.dreamcat.common.argparse.ArgParser;
 import org.dreamcat.common.mail.MailSender;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.daily.script.common.CliUtil;
 
@@ -96,7 +96,7 @@ public class App {
             } else {
                 name = "usage.txt";
             }
-            USAGE = ClassPathUtil.getResourceAsString(name);
+            USAGE = ClassLoaderUtil.getResourceAsString(name);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

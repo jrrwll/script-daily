@@ -1,10 +1,10 @@
 package org.dreamcat.daily.script.common;
 
+import org.dreamcat.common.io.FileUtil;
+import org.dreamcat.common.util.ObjectUtil;
+
 import java.io.IOException;
 import java.util.List;
-import org.dreamcat.common.io.FileUtil;
-import org.dreamcat.common.text.InterpolationUtil;
-import org.dreamcat.common.util.ObjectUtil;
 
 /**
  * @author Jerry Will

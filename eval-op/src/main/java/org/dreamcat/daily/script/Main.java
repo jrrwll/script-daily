@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.dreamcat.common.TimeDuration;
-import org.dreamcat.common.util.ClassPathUtil;
+import org.dreamcat.common.util.ClassLoaderUtil;
 import org.dreamcat.common.util.DateUtil;
 
 /**
@@ -33,7 +33,7 @@ public class Main {
         switch (formula) {
             case "now":
             case "now()":
-                System.out.println(DateUtil.format(new Date(), "yyyy-MM-dd hh:mm:ss.SSS"));
+                System.out.println(DateUtil.formatWithMs(new Date()));
                 return;
             case "timestamp":
             case "timestamp()":
@@ -51,11 +51,11 @@ public class Main {
         if (dateAdd.matches()) {
             String date = dateAdd.group(1);
             TimeDuration duration = TimeDuration.parse(dateAdd.group(2));
-            System.out.println(DateUtil.format(duration.addTo(DateUtil.parseDate(date))));
+            System.out.println(DateUtil.formatDate(duration.addTo(DateUtil.parseLocalDate(date))));
         } else if (dateDiff.matches()) {
             String date1 = dateDiff.group(1);
             String date2 = dateDiff.group(2);
-            long diff = DateUtil.parseDate(date1).getTime() - DateUtil.parseDate(date2).getTime();
+            long diff = DateUtil.parse(date1).getTime() - DateUtil.parse(date2).getTime();
             System.out.println(TimeDuration.ofMillis(diff));
         } else {
             System.err.printf("unsupported formula: %s%n", formula);
@@ -66,7 +66,7 @@ public class Main {
 
     static {
         try {
-            USAGE = ClassPathUtil.getResourceAsString("usage.txt");
+            USAGE = ClassLoaderUtil.getResourceAsString("usage.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
