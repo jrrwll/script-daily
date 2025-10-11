@@ -1,0 +1,7 @@
+string: text
+boolean: integer
+integer: integer
+float: real
+date: text
+time: text
+datetime: text

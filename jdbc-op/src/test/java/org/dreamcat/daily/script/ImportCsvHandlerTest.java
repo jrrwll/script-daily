@@ -17,4 +17,13 @@ class ImportCsvHandlerTest {
                 "-F",ClassLoaderUtil.getResourceAsString("test.csv"),
                 "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"));
     }
+
+    @Test
+    void testJdbc() throws Exception {
+        new SubcommandArgParser(Main.class).run(
+                "import-csv", "t_table_test", "-b", "3",
+                "-F",ClassLoaderUtil.getResourceAsString("test.csv"),
+                "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"),
+                "-j", "jdbc:sqlite:build/temp.sqlite");
+    }
 }

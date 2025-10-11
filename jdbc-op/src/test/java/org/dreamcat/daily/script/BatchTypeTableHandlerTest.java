@@ -2,12 +2,14 @@ package org.dreamcat.daily.script;
 
 import java.io.File;
 import org.dreamcat.common.argparse.SubcommandArgParser;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Jerry Will
  * @version 2023-04-27
  */
+@Tag("integration")
 class BatchTypeTableHandlerTest {
 
     @Test

@@ -1,0 +1,69 @@
+apply plugin: 'org.graalvm.buildtools.native'
+
+dependencies {
+    api project(':jdbc-op')
+}
+
+sourceSets {
+    main {
+        resources {
+            // srcDir '../src/main/resources'
+            srcDir 'resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'test'
+            srcDir '../src/test/java'
+        }
+        resources {
+            srcDir '../src/test/resources'
+        }
+    }
+}
+
+apply from: new File(rootDir, 'jdbc-op/build.gradle')
+// apply from: new File(projectDir, 'sqlite-slim.gradle')
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+dependencies {
+    // integration all JDBC drivers since AOT is not supported for
+    // loading JDBC drivers dynamically at runtime.
+    implementation 'mysql:mysql-connector-java:8.0.29'
+    implementation 'org.postgresql:postgresql:42.6.0'
+    implementation 'com.h2database:h2:2.2.224'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.4.2.jre11'
+    implementation 'org.xerial:sqlite-jdbc:3.50.3.0'
+}
+
+def nativeImageAgentFilter = new File(projectDir, 'agent-filter.json')
+test {
+    jvmArgs "-agentlib:native-image-agent=config-merge-dir=resources/META-INF/native-image,access-filter-file=${nativeImageAgentFilter}"
+    useJUnitPlatform {
+        excludeTags 'slow', 'integration'
+    }
+}
+
+// ./gradlew :jdbc-op-aot:test --info && ./gradlew :jdbc-op-aot:nativeCompile
+
+// GraalVM 23.1+ auto detect for MR-JAR: META-INF/versions/9/**
+graalvmNative {
+    metadataRepository {
+        enabled = true
+    }
+    binaries {
+        main {
+            imageName = "jdbc-op"
+            mainClass = 'org.dreamcat.daily.script.Main'
+            sharedLibrary = false
+            buildArgs.addAll([
+                    '--no-fallback',
+                    '-Ob',
+            ])
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package org.dreamcat.daily.script;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -18,6 +19,7 @@ class ExportJdbcHandlerTest {
     }
 
     @Test
+    @Tag("integration")
     void testMysql() throws Exception {
         Main.main(new String[]{
                 "export-jdbc", "--databases", "test",

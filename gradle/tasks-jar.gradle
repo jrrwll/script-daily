@@ -33,24 +33,29 @@ plugins.withType(JavaPlugin).configureEach {
         dependsOn jar, depJar, fatJar
     }
 
+    // ./gradlew copyDep -Pclasspath=compile
     tasks.register("copyDep", Copy) {
         group 'build'
         description 'Copy all dep jars to build/dep'
         doLast {
             destinationDir file("${layout.buildDirectory.getAsFile().get()}/dep")
+            def classpath = findProperty('classpath') == 'compile' ?
+                    configurations.compileClasspath : configurations.runtimeClasspath
             from {
-                configurations.runtimeClasspath.findAll { it.name.endsWith('.jar') }.collect { file(it) }
+                classpath.findAll { it.name.endsWith('.jar') }.collect { file(it) }
             }
         }
     }
 
-    // print all dep flatly
     tasks.register("descDep") {
         group 'help'
-        description 'Print all dep flatly'
+        description 'Print all dep filename'
         doLast {
-            configurations.runtimeClasspath.findAll { it.name.endsWith('.jar') }.forEach {
-                println(it.name)
+            def classpath = findProperty('classpath') == 'compile' ?
+                    configurations.compileClasspath : configurations.runtimeClasspath
+
+            classpath.findAll { it.name.endsWith('.jar') }.forEach {
+                println(it.path)
             }
         }
     }

@@ -35,6 +35,7 @@ public abstract class BaseExportHandler extends BaseHandler {
     private String showTables = "show tables from $database";
     private String descTable = "desc $database.$table";
     private String select = "select * from $database.$table";
+    private String select_without_database = "select * from $table";
 
     private String catalog;
     private String databasePattern;
@@ -75,16 +76,20 @@ public abstract class BaseExportHandler extends BaseHandler {
         List<String> matchedDatabases = new ArrayList<>();
         if (ObjectUtil.isEmpty(databases)) {
             List<String> allDatabases = getDatabases(connection);
-            if (ObjectUtil.isEmpty(allDatabases)) {
+            if (allDatabases == null) {
+                matchedDatabases.add(null);// database-less db
+            }
+            else if (ObjectUtil.isEmpty(allDatabases)) {
                 System.out.println("no databases found in catalog: " + catalog);
                 System.exit(0);
-            }
-            for (String database : allDatabases) {
-                if (!database.matches(databasePattern)) {
-                    System.out.println(database + " is unmatched by " + databasePattern);
-                    continue;
+            } else {
+                for (String database : allDatabases) {
+                    if (!database.matches(databasePattern)) {
+                        System.out.println(database + " is unmatched by " + databasePattern);
+                        continue;
+                    }
+                    matchedDatabases.add(database);
                 }
-                matchedDatabases.add(database);
             }
         } else {
             matchedDatabases = databases;
@@ -144,7 +149,8 @@ public abstract class BaseExportHandler extends BaseHandler {
         Map<String, JdbcColumnDef> columnMap = MapUtil.toMap(columns, JdbcColumnDef::getName);
 
         // query
-        String sql = InterpolationUtil.format(select,
+        String sql = InterpolationUtil.format(
+                database == null ? select_without_database : select,
                 "database", database, "db", database, "table", table, "tb", table);
         System.out.println("extract: " + sql);
         try (Statement statement = connection.createStatement()) {
@@ -184,6 +190,9 @@ public abstract class BaseExportHandler extends BaseHandler {
             }
         }
 
+        if (database == null) {
+            throw new IllegalArgumentException("useShow is unsupported for database-less db");
+        }
         String sql =  InterpolationUtil.format(showTables,
                 "database", database, "db", database);
         System.out.printf("getTables: %s%n", sql);

@@ -3,7 +3,7 @@
 dreamcat-common = "0.5-SNAPSHOT"
 dreamcat-excel = "0.2-SNAPSHOT"
 # https://mvnrepository.com/artifact/org.projectlombok/lombok
-lombok = '1.18.30'
+lombok = '1.18.42'
 # https://mvnrepository.com/artifact/org.slf4j/slf4j-api
 slf4j = '1.7.36'
 # https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core

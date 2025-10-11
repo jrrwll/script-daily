@@ -37,6 +37,13 @@ class ImportExcelHandlerTest {
     static String homeDir = SystemUtil.getPropertyOrEnv("user.dir", "HOME", ".");
     static File filename = new File(homeDir, "Downloads/all_type.xlsx");
 
+    @Test
+    void testHelp() {
+        new SubcommandArgParser(Main.class).run(
+                "import-excel", "-h"
+        );
+    }
+
     @SneakyThrows
     @Test
     void test() {

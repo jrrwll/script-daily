@@ -85,8 +85,14 @@ public class ExportJdbcHandler extends BaseExportHandler {
         }
 
         String columnNameSql = StringUtil.join(",", columnNames, this::formatColumnName);
-        String insertIntoSql = String.format(
-                "insert into %s.%s(%s) values ", database, table, columnNameSql);
+        String insertIntoSql;
+        if (database != null) {
+            insertIntoSql = String.format(
+                    "insert into %s.%s(%s) values ", database, table, columnNameSql);
+        } else {
+            insertIntoSql = String.format(
+                    "insert into %s(%s) values ", table, columnNameSql);
+        }
 
         String sql = insertIntoSql + randomGen.generateValues(list, typeNames);
         if (verbose) System.out.println("write sql: " + sql);

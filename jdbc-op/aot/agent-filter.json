@@ -1,0 +1,9 @@
+{
+  "rules": [
+    { "excludeClasses": "org.gradle.**" },
+    { "excludeClasses": "org.junit.**" },
+    { "excludeClasses": "org.testng.**" },
+    { "excludeClasses": "java.lang.reflect.**" },
+    { "excludeClasses": "worker.org.gradle.**" }
+  ]
+}
