@@ -1,15 +1,16 @@
 package org.dreamcat.daily.script;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.common.elasticsearch.EsDocClient;
 import org.dreamcat.common.elasticsearch.EsIndexClient;
 import org.dreamcat.common.elasticsearch.EsQueryClient;
 import org.dreamcat.common.elasticsearch.EsRestClientUtil;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Jerry Will

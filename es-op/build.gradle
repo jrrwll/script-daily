@@ -5,6 +5,8 @@ ext {
 
 dependencies {
     implementation project(':common')
+
+    implementation libs.common.x
     implementation "co.elastic.clients:elasticsearch-java:$elasticsearchVersion"
 }
 

@@ -2,6 +2,7 @@
 [versions]
 dreamcat-common = "0.5-SNAPSHOT"
 dreamcat-excel = "0.2-SNAPSHOT"
+dreamcat-x = "0.5-SNAPSHOT"
 # https://mvnrepository.com/artifact/org.projectlombok/lombok
 lombok = '1.18.42'
 # https://mvnrepository.com/artifact/org.slf4j/slf4j-api
@@ -17,6 +18,7 @@ jackson = "2.17.2"
 [libraries]
 common = { module = "org.dreamcat:common", version.ref = "dreamcat-common" }
 common-excel = { module = "org.dreamcat:common-excel", version.ref = "dreamcat-excel" }
+common-x = { module = "org.dreamcat:common-x", version.ref = "dreamcat-x" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
@@ -27,6 +29,7 @@ jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.re
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+
 
 [bundles]
 log4j2 = ["log4j2-core", "log4j2-slf4j-impl"]
