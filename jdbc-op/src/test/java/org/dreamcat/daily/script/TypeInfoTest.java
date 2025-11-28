@@ -11,8 +11,7 @@ class TypeInfoTest {
 
     @Test
     void test() {
-        testType("varchar(%d"
-                + ")", "varchar");
+        testType("varchar(%d)", "varchar");
         testType("varchar(100)", "varchar");
         testType("decimal(%d, %d)", "decimal");
         testType("decimal(16, 6)", "decimal");
