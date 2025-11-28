@@ -8,15 +8,9 @@ import static org.dreamcat.common.util.RandomUtil.rand;
 import static org.dreamcat.common.util.RandomUtil.randi;
 import static org.dreamcat.common.util.RandomUtil.uuid32;
 
-import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.dreamcat.common.Pair;
-import org.dreamcat.common.argparse.SubcommandArgParser;
 import org.dreamcat.common.excel.ExcelWorkbook;
 import org.dreamcat.common.excel.annotation.XlsHeader;
 import org.dreamcat.common.excel.annotation.XlsSheet;
@@ -27,6 +21,12 @@ import org.dreamcat.common.excel.map.SimpleSheet;
 import org.dreamcat.common.util.ClassLoaderUtil;
 import org.dreamcat.common.util.SystemUtil;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @author Jerry Will
@@ -39,7 +39,7 @@ class ImportExcelHandlerTest {
 
     @Test
     void testHelp() {
-        new SubcommandArgParser(Main.class).run(
+        Main.main(
                 "import-excel", "-h"
         );
     }
@@ -51,7 +51,7 @@ class ImportExcelHandlerTest {
             System.err.println(filename + " doesn't exist, you may run main first");
             return;
         }
-        new SubcommandArgParser(Main.class).run(
+        Main.main(
                 "import-excel",
                 "-b", "3", "--cast-as",
                 "-f", filename.getAbsolutePath(),

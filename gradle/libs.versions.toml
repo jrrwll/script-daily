@@ -9,11 +9,12 @@ lombok = '1.18.42'
 slf4j = '1.7.36'
 # https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
 log4j2 = '2.23.1'
-# https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-jupiter = '5.9.2'
+# https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api
+jupiter = '5.14.1'
+# https://central.sonatype.com/artifact/org.junit.platform/junit-platform-launcher
+junitPlatform = '1.14.1'
 # https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
 jackson = "2.17.2"
-
 
 [libraries]
 common = { module = "org.dreamcat:common", version.ref = "dreamcat-common" }
@@ -26,6 +27,7 @@ log4j2-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "l
 log4j2-slf4j-impl = { module = "org.apache.logging.log4j:slf4j-impl", version.ref = "log4j2" }
 jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter" }
 jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatform" }
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }

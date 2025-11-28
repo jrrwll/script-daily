@@ -1,11 +1,12 @@
 package org.dreamcat.daily.script;
 
+import org.dreamcat.common.argparse.CommandArgParser;
+import org.dreamcat.common.util.ClassLoaderUtil;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.dreamcat.common.argparse.SubcommandArgParser;
-import org.dreamcat.common.util.ClassLoaderUtil;
-import org.junit.jupiter.api.Test;
 
 /**
  * <pre><code>
@@ -24,8 +25,7 @@ class TypeTableHandlerTest {
                 "-c", "Column Type: $type", "-t"));
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "postgresql-types.txt").split("\n")));
-        SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
-        argParser.run(args);
+        new CommandArgParser(Main.class).run(args);
     }
 
     @Test
@@ -36,8 +36,7 @@ class TypeTableHandlerTest {
                 "-c", "Column Type: $type", "-t"));
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "mysql-types.txt").split("\n")));
-        SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
-        argParser.run(args);
+        new CommandArgParser(Main.class).run(args);
     }
 
     @Test
@@ -48,9 +47,7 @@ class TypeTableHandlerTest {
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "hive-types.txt").split("\n")));
         args.addAll(Arrays.asList("-p", "date", "string"));
-
-        SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
-        argParser.run(args);
+        new CommandArgParser(Main.class).run(args);
     }
 
     @Test
@@ -61,9 +58,7 @@ class TypeTableHandlerTest {
                 "--column-quota", "-t"));
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "clickhouse-types.txt").split("\n")));
-
-        SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
-        argParser.run(args);
+        new CommandArgParser(Main.class).run(args);
     }
 
     @Test
@@ -73,20 +68,19 @@ class TypeTableHandlerTest {
                 "-c", "Column Type: $type",
                 "--cnt", "${name}_col_$index", "--pcnt", "p_${name}_col_$index",
                 "-F", ClassLoaderUtil.getResourceAsString("presto-mapping-types.txt"));
-        SubcommandArgParser argParser = new SubcommandArgParser(Main.class);
-        argParser.run(args);
+        new CommandArgParser(Main.class).run(args);
     }
 
     @Test
     void testNullNeg() {
-        new SubcommandArgParser(Main.class).run("type-table", "my_table",
+        Main.main("type-table", "my_table",
                 "-t", "int", "string", "date",
                 "--enable-neg", "--null-ratio", "0.25", "-b", "10", "-n", "100");
     }
 
     @Test
     void testSmartNull() {
-        new SubcommandArgParser(Main.class).run("type-table", "my_table",
+        Main.main("type-table", "my_table",
                 "-t", "int", "string", "date",
                 "--enable-neg", "--row-null-ratio", "0.5,2", "-b", "10", "-n", "100");
     }

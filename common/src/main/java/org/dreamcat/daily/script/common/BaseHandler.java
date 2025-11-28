@@ -4,8 +4,8 @@ import lombok.SneakyThrows;
 import org.dreamcat.common.argparse.ArgParserContext;
 import org.dreamcat.common.argparse.ArgParserEntrypoint;
 import org.dreamcat.common.argparse.ArgParserField;
-import org.dreamcat.common.argparse.SubcommandArgParser;
-import org.dreamcat.common.argparse.SubcommandHelpInfo;
+import org.dreamcat.common.argparse.CommandArgParser;
+import org.dreamcat.common.argparse.CommandHelpInfo;
 import org.dreamcat.common.json.YamlUtil;
 import org.dreamcat.common.util.ObjectUtil;
 
@@ -26,10 +26,10 @@ public abstract class BaseHandler implements ArgParserEntrypoint {
         if (ObjectUtil.isNotBlank(System.getenv("DEBUG")) && !"0".equals(System.getenv("DEBUG"))) {
             System.out.println(Arrays.toString(args));
         }
-        SubcommandArgParser argParser = new SubcommandArgParser(clazz);
+        CommandArgParser argParser = new CommandArgParser(clazz);
         // help info
         try (InputStream file = clazz.getClassLoader().getResourceAsStream("usage.yaml")) {
-            SubcommandHelpInfo helpInfo = YamlUtil.fromJson(file, SubcommandHelpInfo.class);
+            CommandHelpInfo helpInfo = YamlUtil.fromJson(file, CommandHelpInfo.class);
             argParser.setSubcommandHelpInfo(helpInfo);
         } catch (IOException e) {
             throw new RuntimeException(e);

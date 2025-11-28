@@ -1,6 +1,5 @@
 package org.dreamcat.daily.script;
 
-import org.dreamcat.common.argparse.SubcommandArgParser;
 import org.dreamcat.common.util.ClassLoaderUtil;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,7 @@ class ImportCsvHandlerTest {
 
     @Test
     void test() throws Exception {
-        new SubcommandArgParser(Main.class).run(
+        Main.main(
                 "import-csv", "t_table_test", "-b", "3",
                 "-F",ClassLoaderUtil.getResourceAsString("test.csv"),
                 "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"));
@@ -20,7 +19,7 @@ class ImportCsvHandlerTest {
 
     @Test
     void testJdbc() throws Exception {
-        new SubcommandArgParser(Main.class).run(
+        Main.main(
                 "import-csv", "t_table_test", "-b", "3",
                 "-F",ClassLoaderUtil.getResourceAsString("test.csv"),
                 "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"),

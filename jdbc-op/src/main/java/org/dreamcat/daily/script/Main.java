@@ -26,7 +26,7 @@ import org.dreamcat.daily.script.common.BaseHandler;
         })
 public class Main extends BaseHandler {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String... args) {
         run(Main.class, args);
     }
 
