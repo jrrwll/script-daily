@@ -15,6 +15,3 @@ def projects = [
 projects.forEach {
     include it
 }
-
-include 'jdbc-op-aot'
-project(':jdbc-op-aot').projectDir = new File(rootDir, 'jdbc-op/aot')

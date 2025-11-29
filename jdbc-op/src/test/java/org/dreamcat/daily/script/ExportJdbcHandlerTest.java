@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
  */
 class ExportJdbcHandlerTest {
 
-    private static final String home = System.getenv("HOME");
-
     @Test
     void testHelp() {
         Main.main("export-jdbc", "-h");
@@ -18,11 +16,11 @@ class ExportJdbcHandlerTest {
 
     @Test
     @Tag("integration")
-    void testMysql() {
+    void testMysql1() {
         Main.main("export-jdbc", "--databases", "test",
                 "--j1", "jdbc:mysql://127.0.0.1:3306", "--u1", "root", "--p1", "root",
                 "--dp1",
-                home + "/.m2/repository/mysql/mysql-connector-java/8.0.27",
+                System.getenv("HOME") + "/.m2/repository/mysql/mysql-connector-java/8.0.27",
                 "--dc1", "com.mysql.cj.jdbc.Driver",
                 "--j2", "jdbc:mysql://127.0.0.1:3307", "--u2", "root", "--p2", "root",
                 "-S", "mysql", "--use-show", "--verbose"

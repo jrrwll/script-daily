@@ -19,6 +19,11 @@ import java.util.List;
 class TypeTableHandlerTest {
 
     @Test
+    void testHelp() {
+        Main.main("type-table", "-h");
+    }
+
+    @Test
     void testPostgres() throws Exception {
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList("type-table", "my_table", "-S", "postgres",

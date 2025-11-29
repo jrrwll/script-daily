@@ -37,9 +37,7 @@ class ImportExcelHandlerTest {
 
     @Test
     void testHelp() {
-        Main.main(
-                "import-excel", "-h"
-        );
+        Main.main("import-excel", "-h");
     }
 
     @Test
@@ -55,7 +53,8 @@ class ImportExcelHandlerTest {
                 "-f", filename,
                 "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"),
                 "--sn", "t_table_1,t_table_2",
-                "--cn", "c_int,c_double,c_string,c_bool,c_date,c_local_date,c_local_date_time,c_null", "*");
+                "--cn", "c_int,c_double,c_string,c_bool,c_date,c_local_date,c_local_date_time,c_null", "*"
+        );
     }
 
     private void generateExcelFile(String excelFilename) throws IOException {

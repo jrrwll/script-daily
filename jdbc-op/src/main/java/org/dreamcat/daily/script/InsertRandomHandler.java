@@ -1,11 +1,13 @@
 package org.dreamcat.daily.script;
 
 import static org.dreamcat.common.util.RandomUtil.randi;
+import static org.dreamcat.common.util.RandomUtil.uuid32;
 
 import lombok.SneakyThrows;
 import org.dreamcat.common.Pair;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
+import org.dreamcat.common.util.StringUtil;
 import org.dreamcat.daily.script.common.BaseHandler;
 import org.dreamcat.daily.script.common.CliUtil;
 import org.dreamcat.daily.script.model.TypeInfo;
@@ -24,8 +26,8 @@ import java.util.Set;
 @ArgParserType(allProperties = true, command = "insert-random")
 public class InsertRandomHandler extends BaseHandler {
 
-    @ArgParserField(position = 0)
-    private String tableName;
+    @ArgParserField(position = 1)
+    private String tableName = "t_" + StringUtil.reverse(uuid32()).substring(0, 8);
     @ArgParserField("i")
     private Set<String> ignoredColumns;
     @ArgParserField("P")
