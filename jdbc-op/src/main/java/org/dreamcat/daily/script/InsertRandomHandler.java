@@ -2,14 +2,8 @@ package org.dreamcat.daily.script;
 
 import static org.dreamcat.common.util.RandomUtil.randi;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.List;
-import java.util.Set;
 import lombok.SneakyThrows;
 import org.dreamcat.common.Pair;
-import org.dreamcat.common.argparse.ArgParserContext;
-import org.dreamcat.common.argparse.ArgParserEntrypoint;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.daily.script.common.BaseHandler;
@@ -18,6 +12,10 @@ import org.dreamcat.daily.script.model.TypeInfo;
 import org.dreamcat.daily.script.module.JdbcModule;
 import org.dreamcat.daily.script.module.OutputModule;
 import org.dreamcat.daily.script.module.RandomGenModule;
+
+import java.sql.Connection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jerry Will
@@ -80,7 +78,8 @@ public class InsertRandomHandler extends BaseHandler {
     }
 
     void handle(Connection connection) throws Exception {
-        Pair<List<String>, List<String>> pair = TypeInfo.getTypes(connection, tableName, ignoredColumns, partitionColumns);
+        Pair<List<String>, List<String>> pair = TypeInfo.getTypes(connection, tableName, ignoredColumns,
+                partitionColumns);
         List<String> types = pair.first(), partitionTypes = pair.second();
 
         typeTableHandler

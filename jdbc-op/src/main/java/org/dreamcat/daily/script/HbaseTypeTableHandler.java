@@ -2,16 +2,15 @@ package org.dreamcat.daily.script;
 
 import static org.dreamcat.common.util.RandomUtil.randi;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.dreamcat.common.argparse.ArgParserContext;
-import org.dreamcat.common.argparse.ArgParserEntrypoint;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.daily.script.common.BaseHandler;
 import org.dreamcat.daily.script.model.TypeInfo;
 import org.dreamcat.daily.script.module.RandomGenModule;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Jerry Will

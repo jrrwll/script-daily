@@ -2,20 +2,7 @@ package org.dreamcat.daily.script;
 
 import static org.dreamcat.common.util.RandomUtil.randi;
 
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import lombok.SneakyThrows;
 import org.dreamcat.common.Pair;
-import org.dreamcat.common.argparse.ArgParserContext;
-import org.dreamcat.common.argparse.ArgParserEntrypoint;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.common.io.FileUtil;
@@ -26,6 +13,17 @@ import org.dreamcat.common.util.CollectionUtil;
 import org.dreamcat.common.util.NumberUtil;
 import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.common.util.StringUtil;
+
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Jerry Will
@@ -86,7 +84,8 @@ public class BatchTypeTableHandler extends BaseDdlHandler {
 
         if (ObjectUtil.isEmpty(file) && ObjectUtil.isBlank(fileContent) &&
                 ObjectUtil.isEmpty(combinationTypes)) {
-            System.err.println("required arg: -f|--file <file> or -F|--file-content <content> or -t|--types <t1> <t2>...");
+            System.err.println(
+                    "required arg: -f|--file <file> or -F|--file-content <content> or -t|--types <t1> <t2>...");
             System.exit(1);
         }
 
@@ -157,7 +156,8 @@ public class BatchTypeTableHandler extends BaseDdlHandler {
         }
     }
 
-    private void handleOne(Connection connection, List<String> types, List<String> partitionTypes, int index) throws Exception {
+    private void handleOne(Connection connection, List<String> types, List<String> partitionTypes, int index)
+            throws Exception {
         String name = InterpolationUtil.formatEl(tableName, "i", index, "index", index);
         typeTableHandler.tableName(name)
                 .types(types)

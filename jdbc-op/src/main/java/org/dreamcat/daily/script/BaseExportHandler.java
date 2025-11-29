@@ -1,13 +1,5 @@
 package org.dreamcat.daily.script;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.dreamcat.common.Pair;
@@ -20,6 +12,15 @@ import org.dreamcat.common.util.FunctionUtil;
 import org.dreamcat.common.util.MapUtil;
 import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.daily.script.common.BaseHandler;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Jerry Will
@@ -78,8 +79,7 @@ public abstract class BaseExportHandler extends BaseHandler {
             List<String> allDatabases = getDatabases(connection);
             if (allDatabases == null) {
                 matchedDatabases.add(null);// database-less db
-            }
-            else if (ObjectUtil.isEmpty(allDatabases)) {
+            } else if (ObjectUtil.isEmpty(allDatabases)) {
                 System.out.println("no databases found in catalog: " + catalog);
                 System.exit(0);
             } else {
@@ -193,7 +193,7 @@ public abstract class BaseExportHandler extends BaseHandler {
         if (database == null) {
             throw new IllegalArgumentException("useShow is unsupported for database-less db");
         }
-        String sql =  InterpolationUtil.format(showTables,
+        String sql = InterpolationUtil.format(showTables,
                 "database", database, "db", database);
         System.out.printf("getTables: %s%n", sql);
         return JdbcUtil.getRows(connection, sql).stream()
@@ -203,7 +203,7 @@ public abstract class BaseExportHandler extends BaseHandler {
     }
 
     private List<JdbcColumnDef> getColumns(Connection connection, String database, String table)
-            throws SQLException{
+            throws SQLException {
         if (!useDesc) {
             System.out.printf("getColumns: catalog=%s, database=%s, table=%s%n",
                     catalog, database, table);
@@ -211,7 +211,7 @@ public abstract class BaseExportHandler extends BaseHandler {
                     connection, catalog, database, table);
         }
 
-        String sql =  InterpolationUtil.format(descTable,
+        String sql = InterpolationUtil.format(descTable,
                 "database", database, "db", database, "table", table, "tb", table);
         System.out.printf("getColumns: %s%n", sql);
         return JdbcUtil.getRows(connection, sql).stream()

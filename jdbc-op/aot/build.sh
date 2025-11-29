@@ -7,7 +7,7 @@
 
   if [[ ! -f "jdbc-op/aot/build/native/nativeCompile/jdbc-op" ]]; then
       if [[ ! -d "jdbc-op/aot/resources/META-INF" ]]; then
-        ./gradlew :jdbc-op-aot:test --info
+        ./gradlew :jdbc-op-aot:test --info --stacktrace
       fi
       ./gradlew :jdbc-op-aot:nativeCompile
   fi

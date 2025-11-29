@@ -2,9 +2,9 @@
 void jarTask(String name, String classifier, boolean withJar, String desc) {
     // tasks.create(name: name, type: Jar) {
     tasks.register(name, Jar) {
-        group 'build'
-        description desc
-        archiveClassifier.set classifier
+        group = 'build'
+        description = desc
+        archiveClassifier = classifier
         // leave the file/entry that was first copied/created in place
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
@@ -28,17 +28,18 @@ plugins.withType(JavaPlugin).configureEach {
     jarTask('depJar', 'dep', false, 'Build a fat jar with all dependencies without classes')
 
     tasks.register("allJar") {
-        group 'build'
-        description 'Build all jars, include jar, depJar and fatJar'
+        group = 'build'
+        description = 'Build all jars, include jar, depJar and fatJar'
         dependsOn jar, depJar, fatJar
     }
 
     // ./gradlew copyDep -Pclasspath=compile
     tasks.register("copyDep", Copy) {
-        group 'build'
-        description 'Copy all dep jars to build/dep'
+        group = 'build'
+        description = 'Copy all dep jars to build/dep'
+        destinationDir = file("${layout.buildDirectory.getAsFile().get()}/dep")
+
         doLast {
-            destinationDir file("${layout.buildDirectory.getAsFile().get()}/dep")
             def classpath = findProperty('classpath') == 'compile' ?
                     configurations.compileClasspath : configurations.runtimeClasspath
             from {
@@ -48,8 +49,9 @@ plugins.withType(JavaPlugin).configureEach {
     }
 
     tasks.register("descDep") {
-        group 'help'
-        description 'Print all dep filename'
+        group = 'help'
+        description = 'Print all dep filename'
+
         doLast {
             def classpath = findProperty('classpath') == 'compile' ?
                     configurations.compileClasspath : configurations.runtimeClasspath

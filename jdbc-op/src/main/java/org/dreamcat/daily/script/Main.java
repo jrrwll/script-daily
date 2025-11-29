@@ -34,6 +34,5 @@ public class Main extends BaseHandler {
     public void run() throws Exception {
         System.err.println("require a subcommand");
         System.err.println("jdbc-op: try 'jdbc-op --help' for more information");
-        System.exit(1);
     }
 }

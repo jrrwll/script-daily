@@ -2,17 +2,18 @@ package org.dreamcat.daily.script.module;
 
 import static org.dreamcat.common.util.StringUtil.isNotEmpty;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.List;
-import java.util.Properties;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.common.function.IConsumer;
 import org.dreamcat.common.sql.DriverUtil;
 import org.dreamcat.common.util.SystemUtil;
 import org.dreamcat.daily.script.common.CliUtil;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * @author Jerry Will

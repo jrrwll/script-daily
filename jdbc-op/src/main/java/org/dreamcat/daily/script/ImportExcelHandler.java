@@ -4,6 +4,18 @@ import static org.dreamcat.common.util.CollectionUtil.mapToList;
 import static org.dreamcat.common.util.FunctionUtil.firstNotNull;
 import static org.dreamcat.common.util.ListUtil.getOrNull;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.dreamcat.common.Pair;
+import org.dreamcat.common.argparse.ArgParserField;
+import org.dreamcat.common.argparse.ArgParserType;
+import org.dreamcat.common.excel.ExcelUtil;
+import org.dreamcat.common.util.ArrayUtil;
+import org.dreamcat.common.util.CollectionUtil;
+import org.dreamcat.common.util.ObjectUtil;
+import org.dreamcat.daily.script.model.TypeInfo;
+import org.dreamcat.daily.script.module.TextTypeModule;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,17 +29,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import org.dreamcat.common.Pair;
-import org.dreamcat.common.argparse.ArgParserField;
-import org.dreamcat.common.argparse.ArgParserType;
-import org.dreamcat.common.excel.ExcelUtil;
-import org.dreamcat.common.util.ArrayUtil;
-import org.dreamcat.common.util.CollectionUtil;
-import org.dreamcat.common.util.ObjectUtil;
-import org.dreamcat.daily.script.model.TypeInfo;
-import org.dreamcat.daily.script.module.TextTypeModule;
 
 /**
  * @author Jerry Will

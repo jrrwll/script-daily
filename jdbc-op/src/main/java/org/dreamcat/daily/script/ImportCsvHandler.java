@@ -1,16 +1,5 @@
 package org.dreamcat.daily.script;
 
-import java.io.File;
-import java.io.StringReader;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.dreamcat.common.MutableInt;
@@ -26,6 +15,18 @@ import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.common.util.StringUtil;
 import org.dreamcat.daily.script.model.TypeInfo;
 import org.dreamcat.daily.script.module.TextTypeModule;
+
+import java.io.File;
+import java.io.StringReader;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author Jerry Will

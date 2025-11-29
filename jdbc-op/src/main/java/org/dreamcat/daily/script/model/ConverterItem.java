@@ -1,7 +1,8 @@
 package org.dreamcat.daily.script.model;
 
-import java.util.Set;
 import lombok.Data;
+
+import java.util.Set;
 
 /**
  * @author Jerry Will

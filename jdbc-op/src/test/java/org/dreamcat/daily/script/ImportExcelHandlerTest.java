@@ -23,6 +23,7 @@ import org.dreamcat.common.util.SystemUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -34,9 +35,6 @@ import java.util.Date;
  */
 class ImportExcelHandlerTest {
 
-    static String homeDir = SystemUtil.getPropertyOrEnv("user.dir", "HOME", ".");
-    static File filename = new File(homeDir, "Downloads/all_type.xlsx");
-
     @Test
     void testHelp() {
         Main.main(
@@ -44,25 +42,23 @@ class ImportExcelHandlerTest {
         );
     }
 
-    @SneakyThrows
     @Test
+    @SneakyThrows
     void test() {
-        if (!filename.exists()) {
-            System.err.println(filename + " doesn't exist, you may run main first");
-            return;
+        String filename = new File("build/all_type.xlsx").getCanonicalPath();
+        if (!new File(filename).exists()) {
+            generateExcelFile(filename);
         }
         Main.main(
                 "import-excel",
                 "-b", "3", "--cast-as",
-                "-f", filename.getAbsolutePath(),
+                "-f", filename,
                 "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"),
                 "--sn", "t_table_1,t_table_2",
                 "--cn", "c_int,c_double,c_string,c_bool,c_date,c_local_date,c_local_date_time,c_null", "*");
     }
 
-    // create a excel file
-    @SneakyThrows
-    public static void main(String[] args) {
+    private void generateExcelFile(String excelFilename) throws IOException {
         SimpleSheet sheet1 = new SimpleSheet(Pojo.class);
         for (int i = 0; i < randi(1, 17); i++) {
             sheet1.addRow(new Pojo());
@@ -81,7 +77,7 @@ class ImportExcelHandlerTest {
             Pair<?, ?> pair = (Pair<?, ?>) row;
             return Arrays.asList(pair.first(),pair.second());
         });
-        new ExcelWorkbook<>().addSheet(sheet1).addSheet(sheet2).writeTo(filename);
+        new ExcelWorkbook<>().addSheet(sheet1).addSheet(sheet2).writeTo(excelFilename);
     }
 
     @XlsSheet(name = "Sheet One")

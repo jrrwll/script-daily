@@ -1,11 +1,5 @@
 package org.dreamcat.daily.script;
 
-import java.io.File;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
@@ -17,6 +11,13 @@ import org.dreamcat.common.sql.JdbcColumnDef;
 import org.dreamcat.common.text.InterpolationUtil;
 import org.dreamcat.daily.script.module.JdbcModule;
 import org.dreamcat.daily.script.module.RandomGenModule;
+
+import java.io.File;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Jerry Will

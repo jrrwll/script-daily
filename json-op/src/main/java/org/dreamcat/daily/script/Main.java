@@ -24,6 +24,5 @@ public class Main extends BaseHandler {
     public void run() {
         System.err.println("require a subcommand");
         System.err.println("json-op: try 'json-op --help' for more information");
-        System.exit(1);
     }
 }

@@ -1,21 +1,34 @@
 package org.dreamcat.daily.script;
 
+import org.dreamcat.common.argparse.CommandArgParser;
+import org.dreamcat.common.util.ClassLoaderUtil;
+import org.dreamcat.common.util.StringUtil;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Jerry Will
  * @version 2023-04-27
  */
-@Tag("integration")
 class BatchTypeTableHandlerTest {
 
     @Test
     void testFile() throws Exception {
-        Main.main("batch-type-table", "my_table_$i", "-f",
-                new File("src/test/resources/batch.txt").getCanonicalPath());
+        List<String> args = new ArrayList<>(Arrays.asList("batch-type-table", "my_table_$i"));
+        File file = new File("src/test/resources/batch.txt");
+        if (file.exists()) {
+            String filename = file.getCanonicalPath();
+            args.addAll(Arrays.asList("-f", filename));
+        } else {
+            String fileContent = ClassLoaderUtil.getResourceAsString("batch.txt");
+            args.addAll(Arrays.asList("-F", "'" + StringUtil.escape(fileContent, '\'') + "'"));
+        }
+        CommandArgParser.run(Main.class, args);
     }
 
     @Test
@@ -29,6 +42,7 @@ class BatchTypeTableHandlerTest {
     }
 
     @Test
+    @Tag("integration")
     void testRollingFile() {
         // 127 / 20 = 7
         Main.main(

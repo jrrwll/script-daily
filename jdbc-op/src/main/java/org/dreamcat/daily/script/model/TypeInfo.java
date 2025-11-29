@@ -1,13 +1,5 @@
 package org.dreamcat.daily.script.model;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +11,15 @@ import org.dreamcat.common.sql.JdbcUtil;
 import org.dreamcat.common.text.InterpolationUtil;
 import org.dreamcat.common.util.CollectionUtil;
 import org.dreamcat.common.util.ObjectUtil;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Jerry Will

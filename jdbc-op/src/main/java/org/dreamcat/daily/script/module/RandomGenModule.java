@@ -1,12 +1,6 @@
 package org.dreamcat.daily.script.module;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import org.dreamcat.common.Pair;
 import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
@@ -19,6 +13,13 @@ import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.common.util.StringUtil;
 import org.dreamcat.daily.script.model.ConverterItem;
 import org.dreamcat.daily.script.model.TypeInfo;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Jerry Will

@@ -25,7 +25,7 @@ class TypeTableHandlerTest {
                 "-c", "Column Type: $type", "-t"));
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "postgresql-types.txt").split("\n")));
-        new CommandArgParser(Main.class).run(args);
+        CommandArgParser.run(Main.class, args);
     }
 
     @Test
@@ -36,7 +36,7 @@ class TypeTableHandlerTest {
                 "-c", "Column Type: $type", "-t"));
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "mysql-types.txt").split("\n")));
-        new CommandArgParser(Main.class).run(args);
+        CommandArgParser.run(Main.class, args);
     }
 
     @Test
@@ -47,7 +47,7 @@ class TypeTableHandlerTest {
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "hive-types.txt").split("\n")));
         args.addAll(Arrays.asList("-p", "date", "string"));
-        new CommandArgParser(Main.class).run(args);
+        CommandArgParser.run(Main.class, args);
     }
 
     @Test
@@ -58,7 +58,7 @@ class TypeTableHandlerTest {
                 "--column-quota", "-t"));
         args.addAll(Arrays.asList(ClassLoaderUtil.getResourceAsString(
                 "clickhouse-types.txt").split("\n")));
-        new CommandArgParser(Main.class).run(args);
+        CommandArgParser.run(Main.class, args);
     }
 
     @Test
@@ -68,7 +68,7 @@ class TypeTableHandlerTest {
                 "-c", "Column Type: $type",
                 "--cnt", "${name}_col_$index", "--pcnt", "p_${name}_col_$index",
                 "-F", ClassLoaderUtil.getResourceAsString("presto-mapping-types.txt"));
-        new CommandArgParser(Main.class).run(args);
+        CommandArgParser.run(Main.class, args);
     }
 
     @Test

@@ -22,8 +22,8 @@ if (!keepPath) {
 def slimJarFile = file("${layout.buildDirectory.getAsFile().get()}/sqlite-jdbc-slim/sqlite-jdbc-3.50.3.0-${keepPath.replace('/', '-').toLowerCase()}.jar")
 
 tasks.register('slimSqlite', Jar) {
-    group 'build'
-    description 'Build platform-stripped sqlite-jdbc jar'
+    group = 'build'
+    description = 'Build platform-stripped sqlite-jdbc jar'
 
     onlyIf { !slimJarFile.exists() }
     archiveFile.set(slimJarFile)
