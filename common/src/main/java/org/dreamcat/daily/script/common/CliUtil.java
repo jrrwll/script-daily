@@ -23,8 +23,8 @@ public class CliUtil {
         } else {
             System.err.printf("required arg %s or %s since %s is pass%n",
                     fileKey, contentKey, sinceKey);
-            System.exit(1);
-            return null; // never happen
+            throw new IllegalArgumentException(String.format(
+                    "required arg %s or %s since %s is pass%n", fileKey, contentKey, sinceKey));
         }
     }
 
@@ -43,7 +43,6 @@ public class CliUtil {
             envString = String.format(", or you can define the environment variable %s", env);
         }
 
-        System.err.printf("required arg %s is missing" + envString, names);
-        System.exit(1);
+        throw new IllegalArgumentException(String.format("required arg %s is missing%s", envString, names));
     }
 }

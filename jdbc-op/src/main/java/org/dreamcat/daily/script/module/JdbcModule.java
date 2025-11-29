@@ -6,8 +6,7 @@ import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.common.function.IConsumer;
 import org.dreamcat.common.sql.DriverUtil;
-import org.dreamcat.common.util.SystemUtil;
-import org.dreamcat.daily.script.common.CliUtil;
+import org.dreamcat.common.util.ObjectUtil;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -36,14 +35,7 @@ public class JdbcModule {
     @ArgParserField({"D"})
     public Properties props;
 
-    public void afterPropertySet() throws Exception {
-
-    }
-
     public void run(IConsumer<Connection> f) throws Exception {
-        if (jdbcUrl != null) {
-            validateJdbc();
-        }
         // jdbcUrl == null only if yes is false
         if (jdbcUrl == null) {
             f.accept(null);
@@ -53,7 +45,8 @@ public class JdbcModule {
         if (isNotEmpty(password)) props.put("password", password);
         System.out.println("jdbcUrl=" + jdbcUrl);
         System.out.println("props=" + props);
-        if (SystemUtil.isAot()) {
+        // maybe aot mode, load driver directly
+        if (ObjectUtil.isEmpty(driverClass) || ObjectUtil.isEmpty(driverPaths)) {
             // aot mode, load driver directly
             try (Connection connection = DriverManager.getConnection(jdbcUrl, props)) {
                 f.accept(connection);
@@ -69,17 +62,5 @@ public class JdbcModule {
             f.accept(c);
             return null;
         });
-    }
-
-    public void validateJdbc() {
-        // validate args
-        CliUtil.checkParameter(jdbcUrl, "-j|--jdbc-url");
-
-        // aot is unsupported for loading jdbc drivers dynamically
-        if (SystemUtil.isAot()) {
-            return;
-        }
-        CliUtil.checkParameter(driverPaths, "--dp|--driver-paths");
-        CliUtil.checkParameter(driverClass, "--dc|--driver-class");
     }
 }

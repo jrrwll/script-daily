@@ -37,8 +37,7 @@ public class TextTypeModule {
 
     public void afterPropertySet() throws IOException {
         if (ObjectUtil.isEmpty(textTypeFile) && ObjectUtil.isBlank(textTypeFileContent)) {
-            System.err.println("require args: -t|--text-type-file <file> or -T|--text-type-file-content <content>");
-            System.exit(1);
+            throw new IllegalArgumentException("require args: -t|--text-type-file <file> or -T|--text-type-file-content <content>");
         }
         this.textTypeMap = getTextTypeMap();
         if (!textTypeMap.containsKey(TextValueType.NULL)) {
@@ -48,8 +47,7 @@ public class TextTypeModule {
         Set<TextValueType> both = new HashSet<>(Arrays.asList(TextValueType.values()));
         both.removeAll(textTypeMap.keySet());
         if (!both.isEmpty()) {
-            System.err.println("miss text type: " + both);
-            System.exit(1);
+            throw new IllegalArgumentException("miss text type: " + both);
         }
     }
 
@@ -81,8 +79,7 @@ public class TextTypeModule {
                 .map(line -> {
                     String[] pair = line.split(":", 2);
                     if (pair.length != 2) {
-                        System.err.println("invalid format line in your text-type-file: " + line);
-                        System.exit(1);
+                        throw new IllegalArgumentException("invalid format line in your text-type-file: " + line);
                     }
                     String textType = pair[0].trim();
                     TextValueType textValueType = null;
@@ -93,8 +90,7 @@ public class TextTypeModule {
                         }
                     }
                     if (textValueType == null) {
-                        System.err.println("invalid format line in your text-type-file: " + line);
-                        System.exit(1);
+                        throw new IllegalArgumentException("invalid format line in your text-type-file: " + line);
                     }
                     List<String> types = Arrays.stream(pair[1].trim().split("\\|")).map(String::trim)
                             .collect(Collectors.toList());

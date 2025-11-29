@@ -51,7 +51,12 @@ public abstract class BaseHandler implements ArgParserEntrypoint {
             return;
         }
 
-        this.afterPropertySet();
-        this.run();
+        try {
+            this.afterPropertySet();
+            this.run();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }

@@ -58,9 +58,8 @@ public class ImportCsvHandler extends BaseDdlHandler {
     protected void afterPropertySet() throws Exception {
         super.afterPropertySet();
         if (ObjectUtil.isEmpty(file) && ObjectUtil.isBlank(fileContent)) {
-            System.err.println(
+            throw new IllegalArgumentException(
                     "required arg: -f|--file <file> or -F|--file-content <content>");
-            System.exit(1);
         }
         if (!existing) {
             if (debug) {
@@ -95,17 +94,14 @@ public class ImportCsvHandler extends BaseDdlHandler {
             }
         }
         if (rows.isEmpty()) {
-            System.err.println("require some data in your csf file");
-            System.exit(1);
+            throw new IllegalArgumentException("require some data in your csf file");
         }
         if (rows.size() < 2) {
-            System.err.println("require at least two rows in your data file");
-            System.exit(1);
+            throw new IllegalArgumentException("require at least two rows in your data file");
         }
         int headerWidth = rows.get(0).size();
         if (rows.stream().anyMatch(row -> row.size() < headerWidth)) {
-            System.err.println("require same column width in your data file");
-            System.exit(1);
+            throw new IllegalArgumentException("require same column width in your data file");
         }
 
         jdbc.run(connection -> this.handle(connection, rows));
@@ -130,8 +126,7 @@ public class ImportCsvHandler extends BaseDdlHandler {
             for (String columnName : header) {
                 TypeInfo typeInfo = typeInfoMap.get(columnName);
                 if (typeInfo == null) {
-                    System.err.println("column `" + columnName + "` doesn't exist in table " + tableName);
-                    System.exit(1);
+                    throw new IllegalArgumentException("column `" + columnName + "` doesn't exist in table " + tableName);
                 }
                 typeInfos.add(typeInfo);
             }
@@ -222,8 +217,7 @@ public class ImportCsvHandler extends BaseDdlHandler {
                 }
             }
             if (topEntry == null) {
-                System.err.println("no enough data to detect text-type for column " + (i + 1));
-                System.exit(1);
+                throw new IllegalArgumentException("no enough data to detect text-type for column " + (i + 1));
             }
             TextValueType textValueType = topEntry.getKey();
             String type = textType.computeCandidateType(textValueType);

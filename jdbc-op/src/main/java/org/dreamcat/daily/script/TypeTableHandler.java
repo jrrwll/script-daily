@@ -50,9 +50,9 @@ public class TypeTableHandler extends BaseDdlHandler {
     public void run() throws Exception {
         if (ObjectUtil.isBlank(file) && ObjectUtil.isEmpty(types) &&
                 ObjectUtil.isEmpty(fileContent)) {
-            System.err.println(
-                    "required arg: -f|--file <file> or -t|--types <t1> <t2>... or -F|--file-content <content>");
-            System.exit(1);
+            throw new IllegalArgumentException(
+                    "required arg: -f|--file <file> or -t|--types <t1> <t2>... "
+                            + "or -F|--file-content <content>");
         }
         if (ObjectUtil.isNotBlank(file) || ObjectUtil.isNotBlank(fileContent)) {
             List<String> lines;
@@ -73,8 +73,7 @@ public class TypeTableHandler extends BaseDdlHandler {
         }
 
         if (ObjectUtil.isEmpty(types)) {
-            System.err.println("at least one type is required in file " + file);
-            System.exit(1);
+            throw new IllegalArgumentException("at least one type is required in file " + file);
         }
 
         randomGen.reset(types.size());

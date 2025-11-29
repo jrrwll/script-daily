@@ -64,8 +64,7 @@ public class TypeInfo {
             this.typeName = type.replaceFirst("%d", "16")
                     .replaceFirst("%d", "6");
         } else {
-            System.err.println("invalid type: " + type);
-            System.exit(1);
+            throw new IllegalArgumentException("invalid type: " + type);
         }
         this.typeId = typeName.toLowerCase()
                 .replaceAll("\\(\\d+\\)", "")

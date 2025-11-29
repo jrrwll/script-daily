@@ -84,9 +84,8 @@ public class BatchTypeTableHandler extends BaseDdlHandler {
 
         if (ObjectUtil.isEmpty(file) && ObjectUtil.isBlank(fileContent) &&
                 ObjectUtil.isEmpty(combinationTypes)) {
-            System.err.println(
+            throw new IllegalArgumentException(
                     "required arg: -f|--file <file> or -F|--file-content <content> or -t|--types <t1> <t2>...");
-            System.exit(1);
         }
 
         if (ObjectUtil.isNotEmpty(file) || ObjectUtil.isNotBlank(fileContent)) {
@@ -105,8 +104,7 @@ public class BatchTypeTableHandler extends BaseDdlHandler {
         } else {
             int typeCount = combinationTypes.size();
             if (typeCount > 30) {
-                System.err.println("types is too much, must <= 30, but: " + typeCount);
-                System.exit(1);
+                throw new IllegalArgumentException("types is too much, must <= 30, but: " + typeCount);
             }
             Set<Integer> combinationNums = new HashSet<>();
             for (String c : combinationMode) {

@@ -63,8 +63,7 @@ public abstract class BaseExportHandler extends BaseHandler {
     protected void afterPropertySet() throws Exception {
         super.afterPropertySet();
         if (ObjectUtil.isEmpty(databases) && ObjectUtil.isBlank(databasePattern)) {
-            System.out.println("require arg: --databases or --database-pattern");
-            System.exit(1);
+            throw new IllegalArgumentException("require arg: --databases or --database-pattern");
         }
     }
 
@@ -80,8 +79,7 @@ public abstract class BaseExportHandler extends BaseHandler {
             if (allDatabases == null) {
                 matchedDatabases.add(null);// database-less db
             } else if (ObjectUtil.isEmpty(allDatabases)) {
-                System.out.println("no databases found in catalog: " + catalog);
-                System.exit(0);
+                throw new IllegalArgumentException("no databases found in catalog: " + catalog);
             } else {
                 for (String database : allDatabases) {
                     if (!database.matches(databasePattern)) {

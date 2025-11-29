@@ -61,8 +61,7 @@ public class ImportExcelHandler extends BaseDdlHandler {
     protected void afterPropertySet() throws Exception {
         super.afterPropertySet();
         if (ObjectUtil.isEmpty(file)) {
-            System.err.println("required arg: -f|--file <file>");
-            System.exit(1);
+            throw new IllegalArgumentException("required arg: -f|--file <file>");
         }
         if (!existing) {
             if (debug) {
@@ -135,8 +134,7 @@ public class ImportExcelHandler extends BaseDdlHandler {
             Set<String> headerSet = new HashSet<>(header);
             for (TypeInfo typeInfo : typeInfos) {
                 if (!headerSet.contains(typeInfo.getColumnName())) {
-                    System.err.println("column `" + columnNameTemplate + "` doesn't exist in table " + tableName);
-                    System.exit(1);
+                    throw new IllegalArgumentException("column `" + columnNameTemplate + "` doesn't exist in table " + tableName);
                 }
             }
             return typeInfos;
