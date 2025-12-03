@@ -12,6 +12,7 @@ alias send-mail="$exec_cmd send-mail \$@"
 alias text-find="$exec_cmd text-find \$@"
 alias json-op="$exec_cmd json-op \$@"
 alias eval-op="$exec_cmd eval-op \$@"
+alias jdbc-op="$exec_cmd jdbc-op \$@"
 
 unset exec_cmd
 

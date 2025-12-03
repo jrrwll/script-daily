@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,12 @@ public class ImportExcelHandler extends BaseDdlHandler {
 
                 List<TypeInfo> typeInfos = getTypeInfos(connection, sheetName, header, rows);
                 Pair<List<String>, List<String>> pair = genSql(sheetName, rows, typeInfos);
-                List<String> sqlList = CollectionUtil.concatToList(pair.first(), pair.second());
+                List<String> sqlList;
+                if (existing) {
+                    sqlList = pair.second();
+                } else {
+                    sqlList = CollectionUtil.concatToList(pair.first(), pair.second());
+                }
                 output(sqlList, connection);
                 sheetIndex++;
             }
@@ -137,7 +143,9 @@ public class ImportExcelHandler extends BaseDdlHandler {
                     throw new IllegalArgumentException("column `" + columnNameTemplate + "` doesn't exist in table " + tableName);
                 }
             }
-            return typeInfos;
+            return typeInfos.stream().sorted(Comparator.comparingInt(
+                    typeInfo -> header.indexOf(typeInfo.getColumnName())))
+                    .collect(Collectors.toList());
         } else {
             List<String> types = getTypesFromData(rows, header);
             return types.stream().map(type -> new TypeInfo(type, setEnumValues))
