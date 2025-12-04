@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# brew install ripgrep
+# rg -t go -t java 'pattern'
 function grep_code {
     dir=.
     if [ $# -eq 0 ]; then
@@ -13,4 +15,3 @@ function grep_code {
 }
 
 if [ $# != 0 ]; then grep_code $@; fi
-
