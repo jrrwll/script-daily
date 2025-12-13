@@ -11,19 +11,19 @@ ok_response = {
     "success": True
 }
 
-@app.router.get("/", response_model=dict)
+@app.router.get("/{path:path}", response_model=dict)
 async def _get(request: Request):
     return await _request(request)
 
-@app.router.post("/", response_model=dict)
+@app.router.post("/{path:path}", response_model=dict)
 async def _post(request: Request):
     return await _request(request)
 
-@app.router.put("/", response_model=dict)
+@app.router.put("/{path:path}", response_model=dict)
 async def _put(request: Request):
     return await _request(request)
 
-@app.router.delete("/", response_model=dict)
+@app.router.delete("/{path:path}", response_model=dict)
 async def _delete(request: Request):
     return await _request(request)
 
