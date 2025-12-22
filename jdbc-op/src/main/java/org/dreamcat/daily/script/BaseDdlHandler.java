@@ -58,7 +58,7 @@ public abstract class BaseDdlHandler extends BaseHandler {
     boolean debug;
     @ArgParserField(firstChar = true)
     boolean help;
-    @ArgParserField({"b"})
+    @ArgParserField({"n"})
     int batchSize = 1;
 
     @ArgParserField(nested = true)
