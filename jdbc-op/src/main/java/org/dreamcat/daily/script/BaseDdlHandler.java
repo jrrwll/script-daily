@@ -17,7 +17,7 @@ import org.dreamcat.daily.script.common.BaseHandler;
 import org.dreamcat.daily.script.model.TypeInfo;
 import org.dreamcat.daily.script.module.JdbcModule;
 import org.dreamcat.daily.script.module.OutputModule;
-import org.dreamcat.daily.script.module.RandomGenModule;
+import org.dreamcat.daily.script.module.SqlGenModule;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -56,8 +56,6 @@ public abstract class BaseDdlHandler extends BaseHandler {
     @ArgParserField(value = {"y"})
     boolean yes; // execute sql or not actually
     boolean debug;
-    @ArgParserField(firstChar = true)
-    boolean help;
     @ArgParserField({"n"})
     int batchSize = 1;
 
@@ -66,14 +64,14 @@ public abstract class BaseDdlHandler extends BaseHandler {
     @ArgParserField(nested = true)
     OutputModule output;
     @ArgParserField(nested = true)
-    RandomGenModule randomGen;
+    SqlGenModule sqlGenModule;
 
     transient Map<String, MutableInt> columnNameCounter = new HashMap<>();
     transient Map<String, MutableInt> partitionColumnNameCounter = new HashMap<>();
 
     protected void afterPropertySet() throws Exception {
         super.afterPropertySet();
-        randomGen.afterPropertySet();
+        sqlGenModule.afterPropertySet();
         if (ObjectUtil.isBlank(columnNameTemplate)) {
             columnNameTemplate = getDefaultColumnName();
         }
@@ -81,7 +79,7 @@ public abstract class BaseDdlHandler extends BaseHandler {
             partitionColumnNameTemplate = getDefaultPartitionColumnName();
         }
 
-        if (Arrays.asList("pg", "postgres", "postgresql").contains(randomGen.dataSourceType)) {
+        if (Arrays.asList("pg", "postgres", "postgresql").contains(sqlGenModule.dataSourceType)) {
             if (StringUtil.isNotBlank(columnCommentSql) && !columnCommentSql.trim().startsWith("comment on column")) {
                 columnCommentSql = String.format("comment on column $table.$column is '%s'", columnCommentSql);
                 commentAlone = true; // since use postgres style
@@ -97,6 +95,10 @@ public abstract class BaseDdlHandler extends BaseHandler {
 
     protected String getDefaultPartitionColumnName() {
         return "p_$name";
+    }
+
+    protected boolean isNullableColumn(String columnName) {
+        return false;
     }
 
     public String formatColumnName(String columnName) {
@@ -241,8 +243,14 @@ public abstract class BaseDdlHandler extends BaseHandler {
             }
             List<String> value = new ArrayList<>(count);
             for (int i = 0; i < count; i++) {
+                TypeInfo typeInfo = typeInfos.get(i);
                 Object cell = getOrNull(row, i);
-                String literal = randomGen.formatAsLiteral(cell, typeInfos.get(i));
+                String literal;
+                if ("".equals(cell) && isNullableColumn(typeInfo.getColumnName())) {
+                    literal = sqlGenModule.nullLiteral();
+                } else {
+                    literal = sqlGenModule.formatAsLiteral(cell, typeInfo);
+                }
                 value.add(literal);
             }
             valueSqlList.add("(" + String.join(",", value) + ")");

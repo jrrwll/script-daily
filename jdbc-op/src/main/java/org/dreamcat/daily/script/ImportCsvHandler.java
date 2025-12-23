@@ -47,6 +47,8 @@ public class ImportCsvHandler extends BaseDdlHandler {
     private String fileContent;
     @ArgParserField("E")
     private boolean existing;
+    @ArgParserField("nc")
+    private List<String> nullColumns;
 
     private boolean tsv;
     private boolean emptyStringAsNull;
@@ -75,6 +77,11 @@ public class ImportCsvHandler extends BaseDdlHandler {
 
     protected String getDefaultPartitionColumnName() {
         return "$name";
+    }
+
+    @Override
+    protected boolean isNullableColumn(String columnName) {
+        return ObjectUtil.isNotEmpty(nullColumns) && nullColumns.contains(columnName);
     }
 
     @Override
@@ -183,10 +190,10 @@ public class ImportCsvHandler extends BaseDdlHandler {
 
     private String getOneValue(String value, TypeInfo typeInfo) {
         if (emptyStringAsNull && ObjectUtil.isEmpty(value)) {
-            return randomGen.nullLiteral();
+            return sqlGenModule.nullLiteral();
         }
         Object sqlValue = TextValueType.parse(value);
-        return randomGen.formatAsLiteral(sqlValue, typeInfo);
+        return sqlGenModule.formatAsLiteral(sqlValue, typeInfo);
     }
 
     // data detect

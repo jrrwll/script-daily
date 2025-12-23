@@ -34,8 +34,9 @@ public class TypeInfo {
     private String columnName; // sql column
     private String typeName; // sql type
     private String typeId; // generator
+    private boolean notNull;
 
-    // type: such as `$type` or `$type: $mappingType`
+    // type: such as `$type` or `$type: $columnName`
     public TypeInfo(String type, String setEnumValues) {
         String[] tt = type.split(":");
         if (tt.length > 1) {

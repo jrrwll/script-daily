@@ -39,6 +39,7 @@ public class TypeTableHandler extends BaseDdlHandler {
     private String file;
     @ArgParserField("F")
     private String fileContent;
+    // such as `$type`, `$type: $columnName`
     @ArgParserField("t")
     private List<String> types;
     @ArgParserField("P")
@@ -76,12 +77,12 @@ public class TypeTableHandler extends BaseDdlHandler {
             throw new IllegalArgumentException("at least one type is required in file " + file);
         }
 
-        randomGen.reset(types.size());
+        sqlGenModule.reset(types.size());
         // debug
         if (debug) {
             Stream.concat(types.stream(), partitionTypes.stream()).distinct().forEach(type -> {
                 type = new TypeInfo(type, setEnumValues).getTypeId();
-                String raw = randomGen.generateLiteral(type);
+                String raw = sqlGenModule.generateLiteral(type);
                 System.out.println(type + ": " + raw);
             });
         }
@@ -89,7 +90,7 @@ public class TypeTableHandler extends BaseDdlHandler {
     }
 
     public void reset() {
-        randomGen.reset(types.size());
+        sqlGenModule.reset(types.size());
     }
 
     public List<String> genSqlList() {
@@ -136,7 +137,7 @@ public class TypeTableHandler extends BaseDdlHandler {
     private String getOneValues() {
         return "(" + types.stream().map(type -> {
             type = new TypeInfo(type, setEnumValues).getTypeId();
-            return randomGen.generateLiteral(type);
+            return sqlGenModule.generateLiteral(type);
         }).collect(Collectors.joining(",")) + ")";
     }
 
@@ -146,7 +147,7 @@ public class TypeTableHandler extends BaseDdlHandler {
         for (int i = 0, size = partitionTypes.size(); i < size; i++) {
             TypeInfo typeInfo = new TypeInfo(partitionTypes.get(i), setEnumValues);
             String columnName = partitionColumnNames.get(i);
-            list.add(columnName + "=" + randomGen.generateLiteral(typeInfo.getTypeId()));
+            list.add(columnName + "=" + sqlGenModule.generateLiteral(typeInfo.getTypeId()));
         }
         return String.format(" partition(%s)", String.join(",", list));
     }

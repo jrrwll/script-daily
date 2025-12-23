@@ -44,8 +44,8 @@ public class ImportExcelHandler extends BaseDdlHandler {
     private String file;
     @ArgParserField("E")
     private boolean existing;
-    @ArgParserField("A")
-    boolean castAs;
+    @ArgParserField("nc")
+    private List<String> nullColumns;
 
     @ArgParserField("sn")
     private String sheetNames; // mapping to table name
@@ -85,6 +85,11 @@ public class ImportExcelHandler extends BaseDdlHandler {
 
     protected String getDefaultPartitionColumnName() {
         return "$name";
+    }
+
+    @Override
+    protected boolean isNullableColumn(String columnName) {
+        return ObjectUtil.isNotEmpty(nullColumns) && nullColumns.contains(columnName);
     }
 
     @Override

@@ -49,7 +49,7 @@ class ImportExcelHandlerTest {
         }
         Main.main(
                 "import-excel",
-                "-b", "3", "--cast-as",
+                "-n", "3", "--cast-as",
                 "-f", filename,
                 "-T", ClassLoaderUtil.getResourceAsString("mysql-text-types.txt"),
                 "--sn", "t_table_1,t_table_2",

@@ -11,7 +11,7 @@ import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.common.util.StringUtil;
 import org.dreamcat.daily.script.common.CliUtil;
 import org.dreamcat.daily.script.module.JdbcModule;
-import org.dreamcat.daily.script.module.RandomGenModule;
+import org.dreamcat.daily.script.module.SqlGenModule;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -40,12 +40,12 @@ public class ExportJdbcHandler extends BaseExportHandler {
     JdbcModule jdbc2;
 
     @ArgParserField(nested = true)
-    RandomGenModule randomGen;
+    SqlGenModule sqlGenModule;
 
     @Override
     protected void afterPropertySet() throws Exception {
         super.afterPropertySet();
-        randomGen.afterPropertySet();
+        sqlGenModule.afterPropertySet();
 
         CliUtil.checkParameter(jdbc1.jdbcUrl, "-j1|--jdbc-url1");
         CliUtil.checkParameter(jdbc1.driverPaths, "--dp1|--driver-paths1");
@@ -95,7 +95,7 @@ public class ExportJdbcHandler extends BaseExportHandler {
                     "insert into %s(%s) values ", table, columnNameSql);
         }
 
-        String sql = insertIntoSql + randomGen.generateValues(list, typeNames);
+        String sql = insertIntoSql + sqlGenModule.generateValues(list, typeNames);
         if (verbose) System.out.println("write sql: " + sql);
         if (!yes) return;
 

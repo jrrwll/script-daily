@@ -10,4 +10,4 @@ out
 build
 .DS_Store
 !python/python.iml
-*/aot/resources/
+.env

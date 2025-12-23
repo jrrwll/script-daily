@@ -26,7 +26,7 @@ import java.util.Set;
  * @version 2023-08-14
  */
 @ArgParserType(allProperties = true)
-public class RandomGenModule {
+public class SqlGenModule {
 
     @ArgParserField("S")
     public String dataSourceType;

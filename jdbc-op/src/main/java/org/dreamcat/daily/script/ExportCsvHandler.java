@@ -10,7 +10,6 @@ import org.dreamcat.common.io.CsvUtil;
 import org.dreamcat.common.sql.JdbcColumnDef;
 import org.dreamcat.common.text.InterpolationUtil;
 import org.dreamcat.daily.script.module.JdbcModule;
-import org.dreamcat.daily.script.module.RandomGenModule;
 
 import java.io.File;
 import java.sql.Connection;
@@ -32,8 +31,6 @@ public class ExportCsvHandler extends BaseExportHandler {
     private String outputFile = "$database/$table.csv";
     @ArgParserField(nested = true)
     JdbcModule jdbc;
-    @ArgParserField(nested = true)
-    RandomGenModule randomGen;
 
     @Override
     protected void readSource(IConsumer<Connection> f) throws Exception {

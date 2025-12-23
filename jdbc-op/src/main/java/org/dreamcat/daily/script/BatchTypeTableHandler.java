@@ -76,7 +76,7 @@ public class BatchTypeTableHandler extends BaseDdlHandler {
                 .setEnumValues(setEnumValues)
                 .jdbc(jdbc)
                 .output(output)
-                .randomGen(randomGen)
+                .sqlGenModule(sqlGenModule)
                 .debug(debug)
                 .batchSize(batchSize)
                 .yes(yes);

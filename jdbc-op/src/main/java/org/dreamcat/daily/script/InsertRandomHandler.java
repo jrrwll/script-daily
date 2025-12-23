@@ -13,7 +13,7 @@ import org.dreamcat.daily.script.common.CliUtil;
 import org.dreamcat.daily.script.model.TypeInfo;
 import org.dreamcat.daily.script.module.JdbcModule;
 import org.dreamcat.daily.script.module.OutputModule;
-import org.dreamcat.daily.script.module.RandomGenModule;
+import org.dreamcat.daily.script.module.SqlGenModule;
 
 import java.sql.Connection;
 import java.util.List;
@@ -52,7 +52,7 @@ public class InsertRandomHandler extends BaseHandler {
     @ArgParserField(nested = true)
     OutputModule output;
     @ArgParserField(nested = true)
-    RandomGenModule randomGen;
+    SqlGenModule randomGen;
 
     transient TypeTableHandler typeTableHandler;
 
@@ -72,7 +72,7 @@ public class InsertRandomHandler extends BaseHandler {
                 .setEnumValues(setEnumValues)
                 .jdbc(jdbc)
                 .output(output)
-                .randomGen(randomGen)
+                .sqlGenModule(randomGen)
                 .batchSize(batchSize)
                 .yes(yes)
                 .debug(debug);

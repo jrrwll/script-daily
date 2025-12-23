@@ -6,7 +6,7 @@ import org.dreamcat.common.argparse.ArgParserField;
 import org.dreamcat.common.argparse.ArgParserType;
 import org.dreamcat.daily.script.common.BaseHandler;
 import org.dreamcat.daily.script.model.TypeInfo;
-import org.dreamcat.daily.script.module.RandomGenModule;
+import org.dreamcat.daily.script.module.SqlGenModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class HbaseTypeTableHandler extends BaseHandler {
     private String setEnumValues = "a,b,c,d";
 
     @ArgParserField(nested = true)
-    RandomGenModule randomGenModule;
+    SqlGenModule sqlGenModule;
 
     @Override
     public void run() throws Exception {
@@ -48,7 +48,7 @@ public class HbaseTypeTableHandler extends BaseHandler {
         if (debug) {
             types.forEach(type -> {
                 type = new TypeInfo(type, setEnumValues).getTypeId();
-                String raw = randomGenModule.generateLiteral(type);
+                String raw = sqlGenModule.generateLiteral(type);
                 System.out.println(type + ": " + raw);
             });
         }
@@ -61,7 +61,7 @@ public class HbaseTypeTableHandler extends BaseHandler {
                 .collect(Collectors.joining(", ")));
         sqlList.add(createTableSql);
 
-        // put 'talbe_name', 'row', 'colfamily:colname', 'value'
+        // put 'table_name', 'row', 'colfamily:colname', 'value'
 
         return sqlList;
     }

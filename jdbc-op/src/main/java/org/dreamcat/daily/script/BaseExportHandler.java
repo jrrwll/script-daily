@@ -12,6 +12,7 @@ import org.dreamcat.common.util.FunctionUtil;
 import org.dreamcat.common.util.MapUtil;
 import org.dreamcat.common.util.ObjectUtil;
 import org.dreamcat.daily.script.common.BaseHandler;
+import org.dreamcat.daily.script.module.SqlGenModule;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
