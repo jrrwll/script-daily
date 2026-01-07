@@ -21,13 +21,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -139,18 +137,15 @@ public class ImportExcelHandler extends BaseDdlHandler {
             List<String> header, List<List<Object>> rows) throws SQLException {
         if (existing) {
             Pair<List<String>, List<String>> pair = TypeInfo.getTypes(connection, tableName);
-            List<TypeInfo> typeInfos = pair.first().stream()
+            Map<String, TypeInfo> typeInfoMap = pair.first().stream()
                     .map(type -> new TypeInfo(type, setEnumValues))
-                    .collect(Collectors.toList());
-            Set<String> headerSet = new HashSet<>(header);
-            for (TypeInfo typeInfo : typeInfos) {
-                if (!headerSet.contains(typeInfo.getColumnName())) {
-                    throw new IllegalArgumentException("column `" + columnNameTemplate + "` doesn't exist in table " + tableName);
+                    .collect(Collectors.toMap(TypeInfo::getColumnName, Function.identity()));
+            for (String headerColumnName : header) {
+                if (!typeInfoMap.containsKey(headerColumnName)) {
+                    throw new IllegalArgumentException("column `" + headerColumnName + "` doesn't exist in table " + tableName);
                 }
             }
-            return typeInfos.stream().sorted(Comparator.comparingInt(
-                    typeInfo -> header.indexOf(typeInfo.getColumnName())))
-                    .collect(Collectors.toList());
+            return header.stream().map(typeInfoMap::get).collect(Collectors.toList());
         } else {
             List<String> types = getTypesFromData(rows, header);
             return types.stream().map(type -> new TypeInfo(type, setEnumValues))
