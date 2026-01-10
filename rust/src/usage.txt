@@ -1,0 +1,31 @@
+rsop 小工具
+
+用法： rsop [选项...]
+
+启动：
+    -h,  --help                           打印此帮助
+    ta tadd time_add              时间偏移
+    td tdiff time_diff            时间差值
+
+例子：tadd '2001-04-01' '-1y3d'    返回：2000-03-29
+     tdiff 2001-04-01 2001-04-30  返回：[29d, 696h, 41760m, 2505600s]
+     now                          返回：yyyy-MM-dd hh:mm:ss.SSS 当前时间
+     now_ts                       返回：毫秒时间戳
+     now_uts                      返回：秒时间戳
+
+子命令：
+    rename 文件重命名
+    例子：rename src -s '.*/test_(.*)' -r '$1_test'
+
+    <sourcePath>                           需要重命名的目录
+    -t, --types <types>                    需要处理的文件类型，默认file，取值：file，dir，
+    -R, --recursive                        是否递归
+    -s, --sr, --source-regex <regex>       需要被重命名的文件，正则全匹配
+    --tc, --trim-char <trimChar>           先对源文件名进行trim
+    --ts, --trim-str <trimStr>
+    --tr, --tr-char <trChar>               先对源文件名进行tr
+    -r, --rr, --replacement-regex <regex>  重命名规则，可以包含$1等正则式
+    -f, --force                            在目标文件已存在时，先删除目标文件
+    -y, --yes, --effect                    实际执行删除和重命名等操作
+    --abort                                任一文件重命名失败，则中止
+    -V, --verbose                          打印详细信息

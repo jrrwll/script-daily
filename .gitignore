@@ -11,3 +11,6 @@ build
 .DS_Store
 !python/python.iml
 .env
+# rust
+target/
+Cargo.lock
