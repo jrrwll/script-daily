@@ -6,7 +6,6 @@ def projects = [
         'send-mail',
         'mongo-op',
         'es-op',
-        'fs-op',
         'json-op',
         'jdbc-op',
 ]
