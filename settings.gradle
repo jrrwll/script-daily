@@ -9,7 +9,6 @@ def projects = [
         'fs-op',
         'json-op',
         'jdbc-op',
-        'eval-op'
 ]
 
 projects.forEach {

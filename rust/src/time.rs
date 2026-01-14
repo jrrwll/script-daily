@@ -1,34 +1,52 @@
-use chrono::Local;
+use chrono::{Local, NaiveDateTime};
 use rexl::argparse::{ArgParserRunnable, FromArgs};
+use rexl::time::{HumanDuration, parse_duration, parse_datetime};
 
 #[derive(Debug, FromArgs)]
 pub struct TimeAddCli {
-    #[arg_parser(position = 1)]
+    #[arg_parser(position = 0)]
     pub time: String,
-    #[arg_parser(position = 2)]
+    #[arg_parser(position = 1)]
     pub duration: String,
+    
 }
 
 impl ArgParserRunnable for TimeAddCli {
     fn run(self) {
-        println!("{:?}", self);
+        let Some(time) = parse_datetime(&self.time) else {
+            eprintln!("invalid datetime format: {}", &self.time);
+            return;
+        };
+        // let duration = HumanDuration::parse(self.duration).unwrap();
+
+        let output = time.format("%Y-%m-%d");
+        println!("{}", output);
     }
 }
 
 #[derive(Debug, FromArgs)]
 pub struct TimeDiffCli {
-    #[arg_parser(position = 1)]
+    #[arg_parser(position = 0)]
     pub time1: String,
-    #[arg_parser(position = 2)]
+    #[arg_parser(position = 1)]
     pub time2: String,
 }
 
 impl ArgParserRunnable for TimeDiffCli {
     fn run(self) {
-        println!("{:?}", self);
+        println!("{:?}", &self);
+
+        let time1 = NaiveDateTime::parse_from_str(
+            &self.time1, "%Y-%m-%d").unwrap();
+        let time2 = NaiveDateTime::parse_from_str(
+            &self.time2, "%Y-%m-%d").unwrap();
+        let diff = time1 - time2;
+        println!("[{}d, {}h, {}m, {}s]",
+                 diff.num_days(), diff.num_hours(),
+                 diff.num_minutes(), diff.num_seconds()
+        );
     }
 }
-
 
 #[derive(Debug, FromArgs)]
 pub struct TimeNowCli {
