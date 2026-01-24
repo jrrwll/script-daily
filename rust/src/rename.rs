@@ -1,9 +1,12 @@
-use rexl::argparse::{ArgParserRunnable, FromArgs};
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::path::PathBuf;
+
 use regex::Regex;
+use rexl::argparse::{ArgParserRunnable, FromArgs};
 use rexl::text::translate;
+
+use crate::base::DirWalker;
 
 #[derive(Debug, FromArgs)]
 pub struct RenameCli {
@@ -39,43 +42,38 @@ pub struct RenameCli {
 
 impl ArgParserRunnable for RenameCli {
     fn run(self) {
-        println!("{:?}", &self);
-        if true {
-            return;
-        }
-
         let Some((source_path, ctx)) = self.parse_ctx() else {
             return;
         };
 
-        ctx.handle_dir(&source_path, &self);
+        ctx.handle_dir(&source_path);
     }
 }
 
 impl RenameCli {
-    fn parse_ctx(&self) -> Option<(PathBuf, RenameCtx)> {
+    fn parse_ctx(self) -> Option<(PathBuf, RenameCtx)> {
         if self.replacement_regex.is_empty()
             && self.trim_char.is_empty()
             && self.trim_str.is_empty()
             && self.tr_char.is_empty()
         {
-            println!("required one of --replacement-regex | --trim-char | --trim-str| --tr-char");
+            eprintln!("required one of --replacement-regex | --trim-char | --trim-str| --tr-char");
             return None;
         }
         if self.replacement_regex.len() / 2 != 0 {
-            println!("invalid length for --replacement-regex, only even arg values is supported");
+            eprintln!("invalid length for --replacement-regex, only even arg values is supported");
             return None;
         }
         for c in &self.tr_char {
             if c.len() != 2 {
-                println!("invalid value `{}` for --tr", c);
+                eprintln!("invalid value `{}` for --tr", c);
                 return None;
             }
         }
 
         let source_path = self.source_path.clone().unwrap_or(".".to_string());
         let Ok(source_path) = fs::canonicalize(&source_path) else {
-            println!("{} is not a directory", source_path);
+            eprintln!("{} is not a directory", source_path);
             return None;
         };
 
@@ -104,7 +102,7 @@ impl RenameCli {
         let mut replacement_regex = vec![];
         for chunk in self.replacement_regex.chunks_exact(2) {
             let Ok(pattern) = Regex::new(&chunk[0]) else {
-                println!("invalid regex `{}` for --replacement-regex", &chunk[0]);
+                eprintln!("invalid regex `{}` for --replacement-regex", &chunk[0]);
                 return None;
             };
             let replacement = chunk[1].clone();
@@ -114,6 +112,7 @@ impl RenameCli {
         Some((
             source_path,
             RenameCtx {
+                args: self,
                 include_file,
                 include_dir,
                 trim_chars,
@@ -125,6 +124,7 @@ impl RenameCli {
 }
 
 struct RenameCtx {
+    args: RenameCli,
     include_file: bool,
     include_dir: bool,
     trim_chars: Vec<char>,
@@ -132,72 +132,43 @@ struct RenameCtx {
     replacement_regex: Vec<(Regex, String)>,
 }
 
-impl RenameCtx {
-
-    fn handle_dir(&self, source_path: &PathBuf, args: &RenameCli) {
-        let Ok(read_dir) = fs::read_dir(source_path) else {
-            println!("failed to read directory {:?}", source_path);
-            return;
-        };
-        for dir_entry in read_dir {
-            let dir_entry = match dir_entry {
-                Ok(v) => v,
-                Err(e) => {
-                    if args.verbose {
-                        println!("failed to read directory entry {:?}", e);
-                    }
-                    if args.abort {
-                        return;
-                    } else {
-                        continue;
-                    }
-                }
-            };
-            let dir_entry_path = dir_entry.path();
-            let Ok(meta) = dir_entry.metadata() else {
-                if args.verbose {
-                    println!("failed to get metadata {:?}", &dir_entry_path);
-                }
-                if args.abort {
-                    return;
-                } else {
-                    continue;
-                }
-            };
-            if meta.is_dir() {
-                // handle children first
-                if args.recursive {
-                    self.handle_dir(&dir_entry_path, args);
-                }
-                // then handle itself
-                if self.include_dir {
-                    if self.handle_entry(dir_entry_path, args) {
-                        return;
-                    }
-                }
-            } else if meta.is_file() {
-                if self.include_file {
-                    if self.handle_entry(dir_entry_path, args) {
-                        return;
-                    }
-                }
-            }
-        }
+impl DirWalker for RenameCtx {
+    fn is_verbose(&self) -> bool {
+        self.args.verbose
     }
 
-    fn handle_entry(&self, path: PathBuf, args: &RenameCli) -> bool {
-        if args.verbose {
+    fn is_abort(&self) -> bool {
+        self.args.abort
+    }
+
+    fn need_recursive(&self) -> bool {
+        self.args.recursive
+    }
+
+    fn handle_dir_entry(&self, path: PathBuf) -> bool {
+        self.handle_entry(path)
+    }
+
+    fn handle_file_entry(&self, path: PathBuf) -> bool {
+        self.handle_entry(path)
+    }
+}
+
+impl RenameCtx {
+
+    fn handle_entry(&self, path: PathBuf) -> bool {
+        if self.args.verbose {
             println!("start to handle {:?}", &path);
         }
         let Some(source_name) = path.file_name().map(|v| v.to_string_lossy().to_string()) else {
-            println!("failed to get filename {:?}", &path);
-            return args.abort;
+            eprintln!("failed to get filename {:?}", &path);
+            return false;
         };
-        if self.is_match_source_regex(&source_name, args) {
-            if args.verbose {
+        if self.is_match_source_regex(&source_name) {
+            if self.args.verbose {
                 println!("unmatched source pattern, skip it: {:?}", &path);
             }
-            return false;
+            return true;
         }
 
         let mut target_name = source_name.clone();
@@ -205,7 +176,7 @@ impl RenameCtx {
         if !self.trim_chars.is_empty() {
             target_name = target_name.trim_matches(self.trim_chars.as_slice()).to_string();
         }
-        for s in &args.trim_str {
+        for s in &self.args.trim_str {
             match target_name.strip_prefix(s) {
                 Some(v) => target_name = v.to_string(),
                 None => {},
@@ -228,41 +199,41 @@ impl RenameCtx {
 
         let target_path = path.parent().unwrap().join(target_name);
         if target_path.exists() {
-            if args.force {
+            if self.args.force {
                 println!("delete target file {:?}", &target_path);
-                if args.yes {
+                if self.args.yes {
                     match fs::remove_file(&target_path) {
                         Ok(_) => {},
                         Err(e) => {
-                            println!("failed to delete target file {:?}, error: {}", &target_path, e);
-                            return args.abort;
+                            eprintln!("failed to delete target file {:?}, error: {}", &target_path, e);
+                            return false;
                         }
                     };
                 }
             } else {
                 println!("file {:?} already exists in the target", &target_path);
-                return false;
+                return true;
             }
         }
         println!("rename file {:?} to {:?}", &path, &target_path);
-        if args.yes {
+        if self.args.yes {
             match fs::rename(&path, &target_path) {
-                Ok(_) => false,
+                Ok(_) => true,
                 Err(e) => {
-                    println!("failed to rename file {:?} to {:?}, error: {}", &path, &target_path, e);
-                    args.abort
+                    eprintln!("failed to rename file {:?} to {:?}, error: {}", &path, &target_path, e);
+                    false
                 }
             }
         } else {
-            false
+            true
         }
     }
 
-    fn is_match_source_regex(&self, source_name: &str, args: &RenameCli) -> bool {
-        if args.source_regex.is_empty() {
+    fn is_match_source_regex(&self, source_name: &str) -> bool {
+        if self.args.source_regex.is_empty() {
             return true;
         }
-        for pattern in &args.source_regex {
+        for pattern in &self.args.source_regex {
             if pattern.is_match(source_name) {
                 return true;
             }

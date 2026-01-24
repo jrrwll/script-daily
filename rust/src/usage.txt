@@ -17,15 +17,40 @@ rsop 小工具
     rename 文件重命名
     例子：rename src -s '.*/test_(.*)' -r '$1_test'
 
-    <sourcePath>                           需要重命名的目录
-    -t, --types <types>                    需要处理的文件类型，默认file，取值：file，dir，
-    -R, --recursive                        是否递归
-    -s, --sr, --source-regex <regex>       需要被重命名的文件，正则全匹配
-    --tc, --trim-char <trimChar>           先对源文件名进行trim
-    --ts, --trim-str <trimStr>
-    --tr, --tr-char <trChar>               先对源文件名进行tr
-    -r, --rr, --replacement-regex <regex>  重命名规则，可以包含$1等正则式
-    -f, --force                            在目标文件已存在时，先删除目标文件
-    -y, --yes, --effect                    实际执行删除和重命名等操作
-    --abort                                任一文件重命名失败，则中止
-    -V, --verbose                          打印详细信息
+        <sourcePath>                           需要重命名的目录
+        -t, --types <types>                    需要处理的文件类型，默认file，取值：file，dir，
+        -R, --recursive                        是否递归
+        -s, --sr, --source-regex <regex>       需要被重命名的文件，正则全匹配
+        --tc, --trim-char <trimChar>           先对源文件名进行trim
+        --ts, --trim-str <trimStr>
+        --tr, --tr-char <trChar>               先对源文件名进行tr
+        -r, --rr, --replacement-regex <regex>  重命名规则，可以包含$1等正则式
+        -f, --force                            在目标文件已存在时，先删除目标文件
+        -y, --yes, --effect                    实际执行删除和重命名等操作
+        --abort                                任一文件重命名失败，则中止
+        -V, --verbose                          打印详细信息
+
+    js json_sort json文件按字段名重排序
+        <sourcePath>                           需要重排序的json文件
+        --desc                                 是否倒序
+
+    jc json_compare json文件比较
+        <leftPath>                             json文件1
+        <rightPath>                            json文件2
+
+    poetry 古诗词查找
+        -a, --authors <authors>                作者
+        -t, --titles <titles>                  标题
+        -c, --contents <contents>              内容
+
+    mail 邮件发送
+        需要先设置环境变量：RSOP_MAIL_USERNAME, RSOP_MAIL_PASSWORD, RSOP_MAIL_HOST or RSOP_MAIL_URL
+        -f, --from <from>                      发件人
+        -t, --to <to1> <to2>                   收件人
+        -c, --cc <cc1> <cc2>                   抄送
+        -b, --bcc <bcc1> <bcc2>                匿名抄送
+        -r, --reply-to <reply1> <reply2>       回复
+        -s, --subject <subject>                邮件主题
+        -c, --content <content>                邮件内容
+        -H, --html                             邮件内容是否是html格式
+        -A, --attachments <attachments>        文件附件

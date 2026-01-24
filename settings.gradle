@@ -2,11 +2,8 @@ rootProject.name = 'script-daily'
 
 def projects = [
         'common',
-        'text-find',
-        'send-mail',
         'mongo-op',
         'es-op',
-        'json-op',
         'jdbc-op',
 ]
 

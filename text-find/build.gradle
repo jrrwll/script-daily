@@ -1,9 +1,0 @@
-dependencies {
-    implementation libs.jackson.annotations
-}
-
-jar {
-    manifest {
-        attributes "Main-Class": "org.dreamcat.daily.script.App"
-    }
-}
