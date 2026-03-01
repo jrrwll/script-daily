@@ -127,3 +127,17 @@ subcommands:
       sheetNames: sheet名的映射规则
       columnNames: "列名的映射规则，支持多值，每个值对应一个sheet\n${ls}例子：--scn '*' 'c_int,c_string,c_date'"
       existing: 是否从现存的数据表中探查类型
+
+  export-jdbc:
+    commandDesc: 将数据从一个 JDBC 数据源同步至另一个目标数据源
+    header: "jdbc-op export-jdbc 将数据从一个 JDBC 数据源同步至另一个目标数据源"
+    helpDesc:
+      columnQuota: 是否为列名转义
+      doubleQuota: 列名转义符是否为双引号
+      yes: 是否实际执行同步
+      jdbcUrl1: 源数据源
+      jdbcUrl2: 目标数据源
+      databases: 需要同步的数据库
+      tables: 需要同步的数据表
+      tablePattern: 需要同步的数据表pattern
+      batchSize: 批量插入的大小限制，即生成的values的最大行数
