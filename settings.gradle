@@ -4,7 +4,6 @@ def projects = [
         'common',
         'mongo-op',
         'es-op',
-        'jdbc-op',
 ]
 
 projects.forEach {

@@ -1,7 +1,0 @@
-string: char(%d) | varchar(%d) | nchar(%d) | nvarchar(%d) | tinytext | mediumtext | text | longtext | bit(%d) | tinyblob | mediumblob | blob | longblob | binary(%d) | varbinary(%d)
-boolean: varchar(%d) | set | enum
-integer: tinyint | tinyint unsigned | smallint | smallint unsigned | mediumint | mediumint unsigned | int | int unsigned | bigint | bigint unsigned
-float: float | float unsigned | double unsigned | decimal(%d,%d) | decimal(%d,%d) unsigned | real | real unsigned
-date: date
-time: time
-datetime: timestamp | datetime

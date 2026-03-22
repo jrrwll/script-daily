@@ -5,15 +5,8 @@ SCRIPT_SHELL_HOME=$SCRIPT_HOME/shell
 
 # java
 exec_cmd="bash $SCRIPT_SHELL_HOME/dev/run_java_module.sh"
-
-alias fs-op="$exec_cmd fs-op \$@"
-alias send-mail="$exec_cmd send-mail \$@"
-
-alias text-find="$exec_cmd text-find \$@"
-alias json-op="$exec_cmd json-op \$@"
-alias eval-op="$exec_cmd eval-op \$@"
-alias jdbc-op="$exec_cmd jdbc-op \$@"
-
+alias es-op="$exec_cmd es-op \$@"
+alias mongo-op="$exec_cmd mongo-op \$@"
 unset exec_cmd
 
 # shell
