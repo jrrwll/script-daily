@@ -1,5 +1,6 @@
 use rexl::argparse::{ArgParserRunnable, FromArgs};
-use rsop::time::*;
+use rstool::time::*;
+
 #[test]
 fn test_time() {
     let args = vec!["2020-02-02", "1d"]

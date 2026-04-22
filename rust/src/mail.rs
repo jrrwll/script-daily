@@ -71,7 +71,7 @@ impl MailEnv {
 
     fn parse() -> Result<Self, Box<dyn std::error::Error>> {
         let env_cfg = Config::builder()
-            .add_source(Environment::default().prefix("RSOP_EMAIL_"))
+            .add_source(Environment::default().prefix("RSTOOL_EMAIL_"))
             .build()?
             .try_deserialize::<Self>()
             .map_err(|e| format!("failed parse config from env: {}", e))?;

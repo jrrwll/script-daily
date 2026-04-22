@@ -1,9 +1,10 @@
-rsop 小工具
+rstool 小工具
 
-用法： rsop [选项...]
+用法： rstool [选项...]
 
 启动：
-    -h,  --help                           打印此帮助
+    -h,  --help                   打印此帮助
+    -i, --interactive             进入交互式模式
     ta tadd time_add              时间偏移
     td tdiff time_diff            时间差值
 
@@ -44,7 +45,7 @@ rsop 小工具
         -c, --contents <contents>              内容
 
     mail 邮件发送
-        需要先设置环境变量：RSOP_MAIL_USERNAME, RSOP_MAIL_PASSWORD, RSOP_MAIL_HOST or RSOP_MAIL_URL
+        需要先设置环境变量：RSTOOL_MAIL_USERNAME, RSTOOL_MAIL_PASSWORD, RSTOOL_MAIL_HOST or RSTOOL_MAIL_URL
         -f, --from <from>                      发件人
         -t, --to <to1> <to2>                   收件人
         -c, --cc <cc1> <cc2>                   抄送

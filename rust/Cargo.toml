@@ -1,5 +1,5 @@
 [package]
-name = "rsop"
+name = "rstool"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,7 +7,9 @@ edition = "2024"
 chrono = "0.4.42"
 config = "0.15.19"
 dirs = "6.0.0"
+home = "0.5.12"
 regex = "1.12.2"
 rexl = { path = "../../rexl/rexl", version = "0.0.5", features = ["derive", "chrono", "lettre"]}
+rustyline = "18.0.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"

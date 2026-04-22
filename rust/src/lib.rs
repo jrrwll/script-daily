@@ -1,4 +1,5 @@
 pub mod base;
+pub mod interactive;
 pub mod time;
 pub mod rename;
 pub mod json;
@@ -14,15 +15,23 @@ use crate::mail::MailSendCli;
 use crate::poetry::PoetryCli;
 use crate::rename::*;
 use crate::time::*;
+use crate::interactive::run_interactive;
 
 #[derive(Debug, FromArgs)]
 #[arg_parser(first_char)]
 pub struct MainCli {
     pub help: bool,
+    pub interactive: bool,
 }
 
 impl ArgParserRunnable for MainCli {
     fn run(self) {
+        if self.interactive {
+            if let Err(e) = run_interactive() {
+                eprintln!("{}", e);
+            }
+            return;
+        }
         println!("{}", USAGE);
     }
 }

@@ -1,4 +1,4 @@
-extern crate rsop;
+extern crate rstool;
 
 #[cfg(test)]
 mod time_test;
