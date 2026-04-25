@@ -1,4 +1,4 @@
-use chrono::{Local, NaiveDateTime};
+use chrono::{DateTime, Local, NaiveDateTime};
 use rexl::argparse::{ArgParserRunnable, FromArgs};
 use rexl::time::{HumanDuration, parse_duration, parse_datetime};
 
@@ -107,5 +107,30 @@ impl ArgParserRunnable for TimeNowCli {
         for (i, ident) in idents.iter().enumerate() {
             println!("{}{}", ident, outputs[i]);
         }
+    }
+}
+
+#[derive(Debug, FromArgs)]
+#[arg_parser(first_char)]
+pub struct TimestampCli {
+    #[arg_parser(position = 0)]
+    pub timestamp: i64,
+    pub epoch: bool
+}
+
+impl ArgParserRunnable for TimestampCli {
+    fn run(self) {
+        let mut timestamp = self.timestamp;
+        let mut nanos = 0;
+        if !self.epoch {
+            timestamp = timestamp / 1000;
+            nanos = (timestamp % 1000) * 1000_000;
+        }
+
+        let Some(dt) = DateTime::from_timestamp(timestamp, nanos as u32) else {
+            eprintln!("invalid timestamp: {}", timestamp);
+            return;
+        };
+        println!("{}", dt);
     }
 }

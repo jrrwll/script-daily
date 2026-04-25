@@ -1,5 +1,6 @@
 pub mod base;
 pub mod interactive;
+pub mod cron;
 pub mod time;
 pub mod rename;
 pub mod json;
@@ -16,6 +17,7 @@ use crate::poetry::PoetryCli;
 use crate::rename::*;
 use crate::time::*;
 use crate::interactive::run_interactive;
+use crate::cron::*;
 
 #[derive(Debug, FromArgs)]
 #[arg_parser(first_char)]
@@ -38,12 +40,14 @@ impl ArgParserRunnable for MainCli {
 
 run_with_args_tree! {
     MainCli {
+        "ts,timestamp" => TimestampCli,
         "ta,tadd,time_add" => TimeAddCli,
         "td,tdiff,time_diff" => TimeDiffCli,
         "now,time_now" => TimeNowCli,
         "rename" => RenameCli,
         "js,json_sort" => JsonSortCli,
         "jc,json_compare" => JsonCompareCli,
+        "cron" => CronCli,
         "p,poetry" => PoetryCli,
         "m,mail" => MailSendCli,
     }
